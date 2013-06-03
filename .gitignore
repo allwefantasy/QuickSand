@@ -1,0 +1,8 @@
+*.iml
+/.idea
+/dictionaries
+/logs
+/out
+/build
+/bin/build_dependecy.sh
+/config/application.yml
