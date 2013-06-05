@@ -25,6 +25,7 @@ public class Task extends Document {
     private String name;
     private String cronTime;
     private String userName;
+    private Integer batchSaveNum = 1000;
     private String created_at;
 
 
@@ -35,6 +36,14 @@ public class Task extends Document {
 
     //getter/setter ignore them
 
+
+    public Integer getBatchSaveNum() {
+        return batchSaveNum;
+    }
+
+    public void setBatchSaveNum(Integer batchSaveNum) {
+        this.batchSaveNum = batchSaveNum;
+    }
 
     public String getName() {
         return name;

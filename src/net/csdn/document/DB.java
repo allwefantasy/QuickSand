@@ -22,21 +22,6 @@ public class DB extends Document {
         )));
     }
 
-    private String sql;
-    private String dbHost;
-    private Integer dbPort;
-    private String dbUserName;
-    private String dbPassword;
-    private String dbName;
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
     public AssociationEmbedded dbDriverInfo() {
         throw new AutoGeneration();
     }
@@ -46,6 +31,29 @@ public class DB extends Document {
     }
 
 
+    private String sql;
+    private String dbHost;
+    private Integer dbPort;
+    private String dbUserName;
+    private String dbPassword;
+    private String dbName;
+    private String prefix;
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
     public String getSql() {
         return sql;
     }

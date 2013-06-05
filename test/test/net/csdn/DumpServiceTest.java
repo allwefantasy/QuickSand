@@ -3,7 +3,7 @@ package test.net.csdn;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.junit.IocTest;
-import net.csdn.service.dump.DBCrawler;
+import net.csdn.service.dump.DBDumper;
 import net.csdn.service.task.TaskService;
 import org.junit.Test;
 
@@ -14,14 +14,14 @@ import static net.csdn.common.collections.WowCollections.map;
  * 6/3/13 WilliamZhu(allwefantasy@gmail.com)
  */
 public class DumpServiceTest extends IocTest {
-    private DBCrawler crawler;
+    private DBDumper crawler;
     private TaskService taskService;
     private Task task;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        crawler = service(DBCrawler.class);
+        crawler = service(DBDumper.class);
         taskService = service(TaskService.class);
         task = Task.create(
                 map(
@@ -37,6 +37,7 @@ public class DumpServiceTest extends IocTest {
                                 "dbUserName", "root",
                                 "dbPassword", "csdn.net",
                                 "dbName", "huiyi",
+                                "prefix", "cf_conference",
                                 "dbDriverInfo", map(
                                 "driverName", "com.mysql.jdbc.Driver",
                                 "url", "jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8"
@@ -49,6 +50,6 @@ public class DumpServiceTest extends IocTest {
     @Test
     public void query() throws Exception {
         DB db = task.dbs().findOne();
-        crawler.query(db);
+        crawler.dump(db);
     }
 }

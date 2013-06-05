@@ -6,7 +6,7 @@ import net.csdn.document.DB;
 /**
  * 5/30/13 WilliamZhu(allwefantasy@gmail.com)
  */
-@Service(implementedBy = DBCrawlerImpl.class)
-public interface DBCrawler {
-    public void query(DB db);
+@Service(implementedBy = DBDumperImpl.class)
+public interface DBDumper {
+    public void dump(DB db);
 }

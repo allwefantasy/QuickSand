@@ -23,13 +23,12 @@ public class TaskServiceTest extends IocTest {
     }
 
 
-
     @Test
     public void testCreateTask() {
         Task t = Task.create(
                 map(
                         "name", "test",
-                        "cronTime", "0 */1 * ? * *",
+                        "cronTime", "*/5 * * ? * *",
                         "userName", "allwefantasy",
                         "created_at", "2013050312",
                         "dbs", list(
@@ -40,6 +39,7 @@ public class TaskServiceTest extends IocTest {
                                 "dbUserName", "root",
                                 "dbPassword", "csdn.net",
                                 "dbName", "huiyi",
+                                "prefix", "huiyi",
                                 "dbDriverInfo", map(
                                 "driverName", "com.mysql.jdbc.Driver",
                                 "url", "jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8"
@@ -50,8 +50,13 @@ public class TaskServiceTest extends IocTest {
         taskService.createTask(t);
         Task newTask = Task.findById("test");
         Assert.assertTrue(newTask != null);
+        taskService.startTask("test");
+        try {
+            Thread.sleep(60 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Task task = Task.findById("test");
         task.remove();
-
     }
 }
