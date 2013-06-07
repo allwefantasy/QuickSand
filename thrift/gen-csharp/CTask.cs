@@ -21,13 +21,13 @@ using Thrift.Transport;
 #endif
 public partial class CTask : TBase
 {
-  private int _name;
+  private string _name;
   private string _cronTime;
   private string _userName;
   private List<CDB> _dbs;
   private int _batchSaveNum;
 
-  public int Name
+  public string Name
   {
     get
     {
@@ -121,8 +121,8 @@ public partial class CTask : TBase
       switch (field.ID)
       {
         case 1:
-          if (field.Type == TType.I32) {
-            Name = iprot.ReadI32();
+          if (field.Type == TType.String) {
+            Name = iprot.ReadString();
           } else { 
             TProtocolUtil.Skip(iprot, field.Type);
           }
@@ -179,12 +179,12 @@ public partial class CTask : TBase
     TStruct struc = new TStruct("CTask");
     oprot.WriteStructBegin(struc);
     TField field = new TField();
-    if (__isset.name) {
+    if (Name != null && __isset.name) {
       field.Name = "name";
-      field.Type = TType.I32;
+      field.Type = TType.String;
       field.ID = 1;
       oprot.WriteFieldBegin(field);
-      oprot.WriteI32(Name);
+      oprot.WriteString(Name);
       oprot.WriteFieldEnd();
     }
     if (CronTime != null && __isset.cronTime) {

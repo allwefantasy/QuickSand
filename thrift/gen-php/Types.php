@@ -339,7 +339,7 @@ class CTask {
       self::$_TSPEC = array(
         1 => array(
           'var' => 'name',
-          'type' => TType::I32,
+          'type' => TType::STRING,
           ),
         2 => array(
           'var' => 'cronTime',
@@ -403,8 +403,8 @@ class CTask {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::I32) {
-            $xfer += $input->readI32($this->name);
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->name);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -462,8 +462,8 @@ class CTask {
     $xfer = 0;
     $xfer += $output->writeStructBegin('CTask');
     if ($this->name !== null) {
-      $xfer += $output->writeFieldBegin('name', TType::I32, 1);
-      $xfer += $output->writeI32($this->name);
+      $xfer += $output->writeFieldBegin('name', TType::STRING, 1);
+      $xfer += $output->writeString($this->name);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->cronTime !== null) {

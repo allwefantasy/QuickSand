@@ -4,9 +4,6 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static net.csdn.common.collections.WowCollections.list;
-import static net.csdn.common.collections.WowCollections.map;
-
 /**
  * 5/30/13 WilliamZhu(allwefantasy@gmail.com)
  */
@@ -19,6 +16,10 @@ public class Test {
 //            e.printStackTrace();
 //        }
         testCopy();
+    }
+
+    public static void testPojoCopy() {
+
     }
 
     public static void testCopy() {

@@ -63,7 +63,7 @@ class CTask
   BATCHSAVENUM = 5
 
   FIELDS = {
-    NAME => {:type => ::Thrift::Types::I32, :name => 'name'},
+    NAME => {:type => ::Thrift::Types::STRING, :name => 'name'},
     CRONTIME => {:type => ::Thrift::Types::STRING, :name => 'cronTime'},
     USERNAME => {:type => ::Thrift::Types::STRING, :name => 'userName'},
     DBS => {:type => ::Thrift::Types::LIST, :name => 'dbs', :element => {:type => ::Thrift::Types::STRUCT, :class => ::CDB}},

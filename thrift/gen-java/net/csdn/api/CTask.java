@@ -6,28 +6,34 @@
  */
 package net.csdn.api;
 
-import net.csdn.api.document.CDB;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
 
 import org.apache.thrift.scheme.TupleScheme;
 import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
 import org.apache.thrift.EncodingUtils;
-
+import org.apache.thrift.TException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CTask");
 
-  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
   private static final org.apache.thrift.protocol.TField CRON_TIME_FIELD_DESC = new org.apache.thrift.protocol.TField("cronTime", org.apache.thrift.protocol.TType.STRING, (short)2);
   private static final org.apache.thrift.protocol.TField USER_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("userName", org.apache.thrift.protocol.TType.STRING, (short)3);
   private static final org.apache.thrift.protocol.TField DBS_FIELD_DESC = new org.apache.thrift.protocol.TField("dbs", org.apache.thrift.protocol.TType.LIST, (short)4);
@@ -39,7 +45,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
     schemes.put(TupleScheme.class, new CTaskTupleSchemeFactory());
   }
 
-  public int name; // required
+  public String name; // required
   public String cronTime; // required
   public String userName; // required
   public List<CDB> dbs; // required
@@ -116,14 +122,13 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
   }
 
   // isset id assignments
-  private static final int __NAME_ISSET_ID = 0;
-  private static final int __BATCHSAVENUM_ISSET_ID = 1;
+  private static final int __BATCHSAVENUM_ISSET_ID = 0;
   private byte __isset_bitfield = 0;
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.CRON_TIME, new org.apache.thrift.meta_data.FieldMetaData("cronTime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.USER_NAME, new org.apache.thrift.meta_data.FieldMetaData("userName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -141,7 +146,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
   }
 
   public CTask(
-    int name,
+    String name,
     String cronTime,
     String userName,
     List<CDB> dbs,
@@ -149,7 +154,6 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
   {
     this();
     this.name = name;
-    setNameIsSet(true);
     this.cronTime = cronTime;
     this.userName = userName;
     this.dbs = dbs;
@@ -162,7 +166,9 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
    */
   public CTask(CTask other) {
     __isset_bitfield = other.__isset_bitfield;
-    this.name = other.name;
+    if (other.isSetName()) {
+      this.name = other.name;
+    }
     if (other.isSetCronTime()) {
       this.cronTime = other.cronTime;
     }
@@ -185,8 +191,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
 
   @Override
   public void clear() {
-    setNameIsSet(false);
-    this.name = 0;
+    this.name = null;
     this.cronTime = null;
     this.userName = null;
     this.dbs = null;
@@ -194,27 +199,28 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
     this.batchSaveNum = 0;
   }
 
-  public int getName() {
+  public String getName() {
     return this.name;
   }
 
-  public CTask setName(int name) {
+  public CTask setName(String name) {
     this.name = name;
-    setNameIsSet(true);
     return this;
   }
 
   public void unsetName() {
-    __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __NAME_ISSET_ID);
+    this.name = null;
   }
 
   /** Returns true if field name is set (has been assigned a value) and false otherwise */
   public boolean isSetName() {
-    return EncodingUtils.testBit(__isset_bitfield, __NAME_ISSET_ID);
+    return this.name != null;
   }
 
   public void setNameIsSet(boolean value) {
-    __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __NAME_ISSET_ID, value);
+    if (!value) {
+      this.name = null;
+    }
   }
 
   public String getCronTime() {
@@ -333,7 +339,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
       if (value == null) {
         unsetName();
       } else {
-        setName((Integer)value);
+        setName((String)value);
       }
       break;
 
@@ -375,7 +381,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
   public Object getFieldValue(_Fields field) {
     switch (field) {
     case NAME:
-      return Integer.valueOf(getName());
+      return getName();
 
     case CRON_TIME:
       return getCronTime();
@@ -427,12 +433,12 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
     if (that == null)
       return false;
 
-    boolean this_present_name = true;
-    boolean that_present_name = true;
+    boolean this_present_name = true && this.isSetName();
+    boolean that_present_name = true && that.isSetName();
     if (this_present_name || that_present_name) {
       if (!(this_present_name && that_present_name))
         return false;
-      if (this.name != that.name)
+      if (!this.name.equals(that.name))
         return false;
     }
 
@@ -559,7 +565,11 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
     boolean first = true;
 
     sb.append("name:");
-    sb.append(this.name);
+    if (this.name == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.name);
+    }
     first = false;
     if (!first) sb.append(", ");
     sb.append("cronTime:");
@@ -635,8 +645,8 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
         }
         switch (schemeField.id) {
           case 1: // NAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-              struct.name = iprot.readI32();
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.name = iprot.readString();
               struct.setNameIsSet(true);
             } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -700,9 +710,11 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
       struct.validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
-      oprot.writeFieldBegin(NAME_FIELD_DESC);
-      oprot.writeI32(struct.name);
-      oprot.writeFieldEnd();
+      if (struct.name != null) {
+        oprot.writeFieldBegin(NAME_FIELD_DESC);
+        oprot.writeString(struct.name);
+        oprot.writeFieldEnd();
+      }
       if (struct.cronTime != null) {
         oprot.writeFieldBegin(CRON_TIME_FIELD_DESC);
         oprot.writeString(struct.cronTime);
@@ -763,7 +775,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
       }
       oprot.writeBitSet(optionals, 5);
       if (struct.isSetName()) {
-        oprot.writeI32(struct.name);
+        oprot.writeString(struct.name);
       }
       if (struct.isSetCronTime()) {
         oprot.writeString(struct.cronTime);
@@ -790,7 +802,7 @@ public class CTask implements org.apache.thrift.TBase<CTask, CTask._Fields>, jav
       TTupleProtocol iprot = (TTupleProtocol) prot;
       BitSet incoming = iprot.readBitSet(5);
       if (incoming.get(0)) {
-        struct.name = iprot.readI32();
+        struct.name = iprot.readString();
         struct.setNameIsSet(true);
       }
       if (incoming.get(1)) {

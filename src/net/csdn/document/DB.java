@@ -17,12 +17,12 @@ public class DB extends Document {
         belongsToEmbedded("task", new Options(map(
                 Options.n_kclass, Task.class
         )));
-        hasOneEmbedded("dbDriverInfo", new Options(map(
+        hasOneEmbedded("driver", new Options(map(
                 Options.n_kclass, DBDriverInfo.class
         )));
     }
 
-    public AssociationEmbedded dbDriverInfo() {
+    public AssociationEmbedded driver() {
         throw new AutoGeneration();
     }
 

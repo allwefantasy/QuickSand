@@ -12,6 +12,7 @@ import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.modules.threadpool.ThreadPoolService;
 import net.csdn.modules.thrift.ThriftClient;
+import net.csdn.modules.thrift.util.PojoCopy;
 import net.csdn.mongo.Document;
 import net.csdn.util.cron.CronExpression;
 import org.apache.thrift.TBase;
@@ -128,35 +129,13 @@ public class TaskServiceImpl implements TaskService {
             public void execute(DBDumpService.Client client) {
                 try {
                     CTask task = new CTask();
-                    copy(task, db.task().findOne());
+                    Task loalTask = db.task().findOne();
+                    PojoCopy.copyProperties(loalTask, task);
                     client.dump(task);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    private void copy(Document db, TBase task) {
-        for (Object field : EnumSet.allOf(((Enum) ReflectHelper.staticField(task.getClass(), "_Fields")).getClass())) {
-            String filedName = (String) ReflectHelper.method(field, "getFieldName");
-            try {
-                ReflectHelper.method(db, filedName, ReflectHelper.field(task, filedName));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void copy(TBase task, Document db) {
-        //((HashMap) CTask._Fields.byName).keySet()
-        for (Object field : EnumSet.allOf(((Enum) ReflectHelper.staticField(task.getClass(), "_Fields")).getClass())) {
-            String filedName = (String) ReflectHelper.method(field, "getFieldName");
-            try {
-                ReflectHelper.field(task, filedName, ReflectHelper.field(db, filedName));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

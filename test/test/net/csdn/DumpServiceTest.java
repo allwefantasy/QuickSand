@@ -1,10 +1,13 @@
 package test.net.csdn;
 
+import net.csdn.api.document.CTask;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.junit.IocTest;
+import net.csdn.modules.thrift.util.PojoCopy;
 import net.csdn.service.dump.DBDumper;
 import net.csdn.service.task.TaskService;
+import net.sf.json.JSONObject;
 import org.junit.Test;
 
 import static net.csdn.common.collections.WowCollections.list;
@@ -38,7 +41,7 @@ public class DumpServiceTest extends IocTest {
                                 "dbPassword", "csdn.net",
                                 "dbName", "huiyi",
                                 "prefix", "cf_conference",
-                                "dbDriverInfo", map(
+                                "driver", map(
                                 "driverName", "com.mysql.jdbc.Driver",
                                 "url", "jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8"
                         )
@@ -47,9 +50,19 @@ public class DumpServiceTest extends IocTest {
         );
     }
 
-    @Test
+    //@Test
     public void query() throws Exception {
         DB db = task.dbs().findOne();
         crawler.dump(db);
+    }
+
+    @Test
+    public void testCopy() {
+        CTask cTask = new CTask();
+        PojoCopy.copyProperties(task, cTask);
+        Task task2 = new Task();
+        Task task3 = Task.create(JSONObject.fromObject(cTask));
+        PojoCopy.copyProperties(cTask, task2);
+        System.out.println("");
     }
 }

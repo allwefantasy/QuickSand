@@ -17,7 +17,7 @@ struct CDB{
 }
 
 struct CTask{
- 1: i32 name,
+ 1: string name,
  2: string cronTime,
  3: string userName,
  4: list<CDB> dbs,

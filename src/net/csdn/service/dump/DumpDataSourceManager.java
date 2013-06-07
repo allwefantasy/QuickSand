@@ -30,7 +30,7 @@ public class DumpDataSourceManager {
 
     //jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8
     private ComboPooledDataSource buildPool() {
-        DBDriverInfo dbDriverInfo = db.dbDriverInfo().findOne();
+        DBDriverInfo dbDriverInfo = db.driver().findOne();
         try {
             Class.forName(dbDriverInfo.getDriverName());
         } catch (ClassNotFoundException e) {

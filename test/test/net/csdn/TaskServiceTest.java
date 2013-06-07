@@ -22,7 +22,10 @@ public class TaskServiceTest extends IocTest {
         taskService = service(TaskService.class);
     }
 
+    @Test
+    public void test(){
 
+    }
     @Test
     public void testCreateTask() {
         Task t = Task.create(
@@ -40,7 +43,7 @@ public class TaskServiceTest extends IocTest {
                                 "dbPassword", "csdn.net",
                                 "dbName", "huiyi",
                                 "prefix", "huiyi",
-                                "dbDriverInfo", map(
+                                "driver", map(
                                 "driverName", "com.mysql.jdbc.Driver",
                                 "url", "jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8"
                         )

@@ -12,15 +12,23 @@ import org.apache.thrift.scheme.StandardScheme;
 
 import org.apache.thrift.scheme.TupleScheme;
 import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
 import org.apache.thrift.EncodingUtils;
 import org.apache.thrift.TException;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("CDB");
@@ -134,21 +142,21 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.SQL, new org.apache.thrift.meta_data.FieldMetaData("sql", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.SQL, new org.apache.thrift.meta_data.FieldMetaData("sql", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DB_HOST, new org.apache.thrift.meta_data.FieldMetaData("dbHost", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DB_HOST, new org.apache.thrift.meta_data.FieldMetaData("dbHost", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DB_PORT, new org.apache.thrift.meta_data.FieldMetaData("dbPort", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DB_PORT, new org.apache.thrift.meta_data.FieldMetaData("dbPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-    tmpMap.put(_Fields.DB_USER_NAME, new org.apache.thrift.meta_data.FieldMetaData("dbUserName", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DB_USER_NAME, new org.apache.thrift.meta_data.FieldMetaData("dbUserName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DB_PASSWORD, new org.apache.thrift.meta_data.FieldMetaData("dbPassword", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DB_PASSWORD, new org.apache.thrift.meta_data.FieldMetaData("dbPassword", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DB_NAME, new org.apache.thrift.meta_data.FieldMetaData("dbName", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DB_NAME, new org.apache.thrift.meta_data.FieldMetaData("dbName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DRIVER, new org.apache.thrift.meta_data.FieldMetaData("driver", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.DRIVER, new org.apache.thrift.meta_data.FieldMetaData("driver", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CDBDriver.class)));
-    tmpMap.put(_Fields.PREFIX, new org.apache.thrift.meta_data.FieldMetaData("prefix", org.apache.thrift.TFieldRequirementType.DEFAULT,
+    tmpMap.put(_Fields.PREFIX, new org.apache.thrift.meta_data.FieldMetaData("prefix", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(CDB.class, metaDataMap);
@@ -846,7 +854,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
       while (true)
       {
         schemeField = iprot.readFieldBegin();
-        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) {
+        if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (schemeField.id) {
@@ -854,7 +862,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.sql = iprot.readString();
               struct.setSqlIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -862,7 +870,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.dbHost = iprot.readString();
               struct.setDbHostIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -870,7 +878,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
               struct.dbPort = iprot.readI32();
               struct.setDbPortIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -878,7 +886,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.dbUserName = iprot.readString();
               struct.setDbUserNameIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -886,7 +894,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.dbPassword = iprot.readString();
               struct.setDbPasswordIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -894,7 +902,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.dbName = iprot.readString();
               struct.setDbNameIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -903,7 +911,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
               struct.driver = new CDBDriver();
               struct.driver.read(iprot);
               struct.setDriverIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
@@ -911,7 +919,7 @@ public class CDB implements org.apache.thrift.TBase<CDB, CDB._Fields>, java.io.S
             if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
               struct.prefix = iprot.readString();
               struct.setPrefixIsSet(true);
-            } else {
+            } else { 
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
