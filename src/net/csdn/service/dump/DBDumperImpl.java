@@ -1,14 +1,12 @@
 package net.csdn.service.dump;
 
 import com.google.inject.Inject;
-import net.csdn.api.DBLoadService;
+import net.csdn.controller.thrift.DBLoadService;
 import net.csdn.common.settings.Settings;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.modules.persist.mysql.MysqlClient;
 import net.csdn.modules.thrift.ThriftClient;
-import net.csdn.service.load.DataLoader;
-import net.csdn.service.load.DataLoaderImpl;
 import net.sf.json.JSONArray;
 import org.apache.thrift.TException;
 

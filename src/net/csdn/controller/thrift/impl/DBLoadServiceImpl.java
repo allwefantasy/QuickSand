@@ -1,6 +1,6 @@
-package net.csdn.api.impl;
+package net.csdn.controller.thrift.impl;
 
-import net.csdn.api.DBLoadService;
+import net.csdn.controller.thrift.DBLoadService;
 import net.csdn.modules.thrift.ThriftApplication;
 import net.csdn.service.load.DataLoader;
 import org.apache.thrift.TException;

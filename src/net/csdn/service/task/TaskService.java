@@ -10,11 +10,11 @@ import net.csdn.document.Task;
 public interface TaskService {
     public Task createTask(Task task);
 
-    public void resumeTasks();
+    public boolean resumeTasks();
 
-    public void cancelTask(String name);
+    public boolean cancelTask(String name);
 
-    public void startTask(String name);
+    public boolean startTask(String name);
 
-    public void removeTask(String name);
+    public boolean removeTask(String name);
 }

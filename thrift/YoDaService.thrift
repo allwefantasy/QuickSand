@@ -1,4 +1,4 @@
-namespace java net.csdn.api
+namespace java net.csdn.controller.thrift
 
 struct CDBDriver{
   1: string driverName,
@@ -33,8 +33,9 @@ service DBLoadService{
 }
 
 service DBTaskService{
-   void createTask(1:CTask task)
-   void startTask(1:string name);
-   void cancelTask(1:string name);
-   void listTask();
+   bool createTask(1:CTask task)
+   bool startTask(1:string name);
+   bool cancelTask(1:string name);
+   CTask findTask(1:string name);
+   list<CTask> listTask();
 }

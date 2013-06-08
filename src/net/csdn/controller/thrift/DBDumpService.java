@@ -4,9 +4,9 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package net.csdn.api;
+package net.csdn.controller.thrift;
 
-import net.csdn.api.document.CTask;
+import net.csdn.controller.thrift.document.CTask;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;

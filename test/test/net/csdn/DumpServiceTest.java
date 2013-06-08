@@ -1,6 +1,6 @@
 package test.net.csdn;
 
-import net.csdn.api.document.CTask;
+import net.csdn.controller.thrift.document.CTask;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.junit.IocTest;

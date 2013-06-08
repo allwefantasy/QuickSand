@@ -4,24 +4,30 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package net.csdn.api;
+package net.csdn.controller.thrift;
 
-import net.csdn.api.document.CTask;
+import net.csdn.controller.thrift.document.CTask;
 import org.apache.thrift.scheme.IScheme;
 import org.apache.thrift.scheme.SchemeFactory;
 import org.apache.thrift.scheme.StandardScheme;
 
 import org.apache.thrift.scheme.TupleScheme;
 import org.apache.thrift.protocol.TTupleProtocol;
+import org.apache.thrift.protocol.TProtocolException;
+import org.apache.thrift.EncodingUtils;
 import org.apache.thrift.TException;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
-
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +35,15 @@ public class DBTaskService {
 
   public interface Iface {
 
-    public void createTask(CTask task) throws TException;
+    public boolean createTask(CTask task) throws TException;
 
-    public void startTask(String name) throws TException;
+    public boolean startTask(String name) throws TException;
 
-    public void cancelTask(String name) throws TException;
+    public boolean cancelTask(String name) throws TException;
 
-    public void listTask() throws TException;
+    public CTask findTask(String name) throws TException;
+
+    public List<CTask> listTask() throws TException;
 
   }
 
@@ -46,6 +54,8 @@ public class DBTaskService {
     public void startTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.startTask_call> resultHandler) throws TException;
 
     public void cancelTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.cancelTask_call> resultHandler) throws TException;
+
+    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findTask_call> resultHandler) throws TException;
 
     public void listTask(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listTask_call> resultHandler) throws TException;
 
@@ -71,10 +81,10 @@ public class DBTaskService {
       super(iprot, oprot);
     }
 
-    public void createTask(CTask task) throws TException
+    public boolean createTask(CTask task) throws TException
     {
       send_createTask(task);
-      recv_createTask();
+      return recv_createTask();
     }
 
     public void send_createTask(CTask task) throws TException
@@ -84,17 +94,20 @@ public class DBTaskService {
       sendBase("createTask", args);
     }
 
-    public void recv_createTask() throws TException
+    public boolean recv_createTask() throws TException
     {
       createTask_result result = new createTask_result();
       receiveBase(result, "createTask");
-      return;
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createTask failed: unknown result");
     }
 
-    public void startTask(String name) throws TException
+    public boolean startTask(String name) throws TException
     {
       send_startTask(name);
-      recv_startTask();
+      return recv_startTask();
     }
 
     public void send_startTask(String name) throws TException
@@ -104,17 +117,20 @@ public class DBTaskService {
       sendBase("startTask", args);
     }
 
-    public void recv_startTask() throws TException
+    public boolean recv_startTask() throws TException
     {
       startTask_result result = new startTask_result();
       receiveBase(result, "startTask");
-      return;
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "startTask failed: unknown result");
     }
 
-    public void cancelTask(String name) throws TException
+    public boolean cancelTask(String name) throws TException
     {
       send_cancelTask(name);
-      recv_cancelTask();
+      return recv_cancelTask();
     }
 
     public void send_cancelTask(String name) throws TException
@@ -124,17 +140,43 @@ public class DBTaskService {
       sendBase("cancelTask", args);
     }
 
-    public void recv_cancelTask() throws TException
+    public boolean recv_cancelTask() throws TException
     {
       cancelTask_result result = new cancelTask_result();
       receiveBase(result, "cancelTask");
-      return;
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "cancelTask failed: unknown result");
     }
 
-    public void listTask() throws TException
+    public CTask findTask(String name) throws TException
+    {
+      send_findTask(name);
+      return recv_findTask();
+    }
+
+    public void send_findTask(String name) throws TException
+    {
+      findTask_args args = new findTask_args();
+      args.setName(name);
+      sendBase("findTask", args);
+    }
+
+    public CTask recv_findTask() throws TException
+    {
+      findTask_result result = new findTask_result();
+      receiveBase(result, "findTask");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findTask failed: unknown result");
+    }
+
+    public List<CTask> listTask() throws TException
     {
       send_listTask();
-      recv_listTask();
+      return recv_listTask();
     }
 
     public void send_listTask() throws TException
@@ -143,11 +185,14 @@ public class DBTaskService {
       sendBase("listTask", args);
     }
 
-    public void recv_listTask() throws TException
+    public List<CTask> recv_listTask() throws TException
     {
       listTask_result result = new listTask_result();
       receiveBase(result, "listTask");
-      return;
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listTask failed: unknown result");
     }
 
   }
@@ -190,13 +235,13 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
+      public boolean getResult() throws TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_createTask();
+        return (new Client(prot)).recv_createTask();
       }
     }
 
@@ -222,13 +267,13 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
+      public boolean getResult() throws TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_startTask();
+        return (new Client(prot)).recv_startTask();
       }
     }
 
@@ -254,13 +299,45 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
+      public boolean getResult() throws TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_cancelTask();
+        return (new Client(prot)).recv_cancelTask();
+      }
+    }
+
+    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler) throws TException {
+      checkReady();
+      findTask_call method_call = new findTask_call(name, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class findTask_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private String name;
+      public findTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.name = name;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("findTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        findTask_args args = new findTask_args();
+        args.setName(name);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public CTask getResult() throws TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_findTask();
       }
     }
 
@@ -283,13 +360,13 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
+      public List<CTask> getResult() throws TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_listTask();
+        return (new Client(prot)).recv_listTask();
       }
     }
 
@@ -309,6 +386,7 @@ public class DBTaskService {
       processMap.put("createTask", new createTask());
       processMap.put("startTask", new startTask());
       processMap.put("cancelTask", new cancelTask());
+      processMap.put("findTask", new findTask());
       processMap.put("listTask", new listTask());
       return processMap;
     }
@@ -328,7 +406,8 @@ public class DBTaskService {
 
       public createTask_result getResult(I iface, createTask_args args) throws TException {
         createTask_result result = new createTask_result();
-        iface.createTask(args.task);
+        result.success = iface.createTask(args.task);
+        result.setSuccessIsSet(true);
         return result;
       }
     }
@@ -348,7 +427,8 @@ public class DBTaskService {
 
       public startTask_result getResult(I iface, startTask_args args) throws TException {
         startTask_result result = new startTask_result();
-        iface.startTask(args.name);
+        result.success = iface.startTask(args.name);
+        result.setSuccessIsSet(true);
         return result;
       }
     }
@@ -368,7 +448,28 @@ public class DBTaskService {
 
       public cancelTask_result getResult(I iface, cancelTask_args args) throws TException {
         cancelTask_result result = new cancelTask_result();
-        iface.cancelTask(args.name);
+        result.success = iface.cancelTask(args.name);
+        result.setSuccessIsSet(true);
+        return result;
+      }
+    }
+
+    public static class findTask<I extends Iface> extends org.apache.thrift.ProcessFunction<I, findTask_args> {
+      public findTask() {
+        super("findTask");
+      }
+
+      public findTask_args getEmptyArgsInstance() {
+        return new findTask_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public findTask_result getResult(I iface, findTask_args args) throws TException {
+        findTask_result result = new findTask_result();
+        result.success = iface.findTask(args.name);
         return result;
       }
     }
@@ -388,7 +489,7 @@ public class DBTaskService {
 
       public listTask_result getResult(I iface, listTask_args args) throws TException {
         listTask_result result = new listTask_result();
-        iface.listTask();
+        result.success = iface.listTask();
         return result;
       }
     }
@@ -757,6 +858,7 @@ public class DBTaskService {
   public static class createTask_result implements org.apache.thrift.TBase<createTask_result, createTask_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("createTask_result");
 
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -764,10 +866,11 @@ public class DBTaskService {
       schemes.put(TupleScheme.class, new createTask_resultTupleSchemeFactory());
     }
 
+    public boolean success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -782,6 +885,8 @@ public class DBTaskService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
           default:
             return null;
         }
@@ -820,9 +925,15 @@ public class DBTaskService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(createTask_result.class, metaDataMap);
     }
@@ -830,10 +941,20 @@ public class DBTaskService {
     public createTask_result() {
     }
 
+    public createTask_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public createTask_result(createTask_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
     }
 
     public createTask_result deepCopy() {
@@ -842,15 +963,51 @@ public class DBTaskService {
 
     @Override
     public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public createTask_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Boolean)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case SUCCESS:
+        return Boolean.valueOf(isSuccess());
+
       }
       throw new IllegalStateException();
     }
@@ -862,6 +1019,8 @@ public class DBTaskService {
       }
 
       switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -879,6 +1038,15 @@ public class DBTaskService {
       if (that == null)
         return false;
 
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
       return true;
     }
 
@@ -895,6 +1063,16 @@ public class DBTaskService {
       int lastComparison = 0;
       createTask_result typedOther = (createTask_result)other;
 
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -915,6 +1093,9 @@ public class DBTaskService {
       StringBuilder sb = new StringBuilder("createTask_result(");
       boolean first = true;
 
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -934,6 +1115,8 @@ public class DBTaskService {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (TException te) {
         throw new java.io.IOException(te);
@@ -958,6 +1141,14 @@ public class DBTaskService {
             break;
           }
           switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -973,6 +1164,11 @@ public class DBTaskService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -990,11 +1186,24 @@ public class DBTaskService {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 
@@ -1357,6 +1566,7 @@ public class DBTaskService {
   public static class startTask_result implements org.apache.thrift.TBase<startTask_result, startTask_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("startTask_result");
 
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -1364,10 +1574,11 @@ public class DBTaskService {
       schemes.put(TupleScheme.class, new startTask_resultTupleSchemeFactory());
     }
 
+    public boolean success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1382,6 +1593,8 @@ public class DBTaskService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
           default:
             return null;
         }
@@ -1420,9 +1633,15 @@ public class DBTaskService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(startTask_result.class, metaDataMap);
     }
@@ -1430,10 +1649,20 @@ public class DBTaskService {
     public startTask_result() {
     }
 
+    public startTask_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public startTask_result(startTask_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
     }
 
     public startTask_result deepCopy() {
@@ -1442,15 +1671,51 @@ public class DBTaskService {
 
     @Override
     public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public startTask_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Boolean)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case SUCCESS:
+        return Boolean.valueOf(isSuccess());
+
       }
       throw new IllegalStateException();
     }
@@ -1462,6 +1727,8 @@ public class DBTaskService {
       }
 
       switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -1479,6 +1746,15 @@ public class DBTaskService {
       if (that == null)
         return false;
 
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
       return true;
     }
 
@@ -1495,6 +1771,16 @@ public class DBTaskService {
       int lastComparison = 0;
       startTask_result typedOther = (startTask_result)other;
 
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1515,6 +1801,9 @@ public class DBTaskService {
       StringBuilder sb = new StringBuilder("startTask_result(");
       boolean first = true;
 
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -1534,6 +1823,8 @@ public class DBTaskService {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (TException te) {
         throw new java.io.IOException(te);
@@ -1558,6 +1849,14 @@ public class DBTaskService {
             break;
           }
           switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -1573,6 +1872,11 @@ public class DBTaskService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1590,11 +1894,24 @@ public class DBTaskService {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 
@@ -1957,6 +2274,7 @@ public class DBTaskService {
   public static class cancelTask_result implements org.apache.thrift.TBase<cancelTask_result, cancelTask_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("cancelTask_result");
 
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -1964,10 +2282,11 @@ public class DBTaskService {
       schemes.put(TupleScheme.class, new cancelTask_resultTupleSchemeFactory());
     }
 
+    public boolean success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1982,6 +2301,8 @@ public class DBTaskService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
           default:
             return null;
         }
@@ -2020,9 +2341,15 @@ public class DBTaskService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(cancelTask_result.class, metaDataMap);
     }
@@ -2030,10 +2357,20 @@ public class DBTaskService {
     public cancelTask_result() {
     }
 
+    public cancelTask_result(
+      boolean success)
+    {
+      this();
+      this.success = success;
+      setSuccessIsSet(true);
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public cancelTask_result(cancelTask_result other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.success = other.success;
     }
 
     public cancelTask_result deepCopy() {
@@ -2042,15 +2379,51 @@ public class DBTaskService {
 
     @Override
     public void clear() {
+      setSuccessIsSet(false);
+      this.success = false;
+    }
+
+    public boolean isSuccess() {
+      return this.success;
+    }
+
+    public cancelTask_result setSuccess(boolean success) {
+      this.success = success;
+      setSuccessIsSet(true);
+      return this;
+    }
+
+    public void unsetSuccess() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return EncodingUtils.testBit(__isset_bitfield, __SUCCESS_ISSET_ID);
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __SUCCESS_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((Boolean)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case SUCCESS:
+        return Boolean.valueOf(isSuccess());
+
       }
       throw new IllegalStateException();
     }
@@ -2062,6 +2435,8 @@ public class DBTaskService {
       }
 
       switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -2079,6 +2454,15 @@ public class DBTaskService {
       if (that == null)
         return false;
 
+      boolean this_present_success = true;
+      boolean that_present_success = true;
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (this.success != that.success)
+          return false;
+      }
+
       return true;
     }
 
@@ -2095,6 +2479,16 @@ public class DBTaskService {
       int lastComparison = 0;
       cancelTask_result typedOther = (cancelTask_result)other;
 
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2115,6 +2509,365 @@ public class DBTaskService {
       StringBuilder sb = new StringBuilder("cancelTask_result(");
       boolean first = true;
 
+      sb.append("success:");
+      sb.append(this.success);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class cancelTask_resultStandardSchemeFactory implements SchemeFactory {
+      public cancelTask_resultStandardScheme getScheme() {
+        return new cancelTask_resultStandardScheme();
+      }
+    }
+
+    private static class cancelTask_resultStandardScheme extends StandardScheme<cancelTask_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_result struct) throws TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.BOOL) {
+                struct.success = iprot.readBool();
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_result struct) throws TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.isSetSuccess()) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          oprot.writeBool(struct.success);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class cancelTask_resultTupleSchemeFactory implements SchemeFactory {
+      public cancelTask_resultTupleScheme getScheme() {
+        return new cancelTask_resultTupleScheme();
+      }
+    }
+
+    private static class cancelTask_resultTupleScheme extends TupleScheme<cancelTask_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          oprot.writeBool(struct.success);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = iprot.readBool();
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class findTask_args implements org.apache.thrift.TBase<findTask_args, findTask_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findTask_args");
+
+    private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new findTask_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new findTask_argsTupleSchemeFactory());
+    }
+
+    public String name; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      NAME((short)1, "name");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // NAME
+            return NAME;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findTask_args.class, metaDataMap);
+    }
+
+    public findTask_args() {
+    }
+
+    public findTask_args(
+      String name)
+    {
+      this();
+      this.name = name;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public findTask_args(findTask_args other) {
+      if (other.isSetName()) {
+        this.name = other.name;
+      }
+    }
+
+    public findTask_args deepCopy() {
+      return new findTask_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.name = null;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public findTask_args setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public void unsetName() {
+      this.name = null;
+    }
+
+    /** Returns true if field name is set (has been assigned a value) and false otherwise */
+    public boolean isSetName() {
+      return this.name != null;
+    }
+
+    public void setNameIsSet(boolean value) {
+      if (!value) {
+        this.name = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case NAME:
+        if (value == null) {
+          unsetName();
+        } else {
+          setName((String)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case NAME:
+        return getName();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case NAME:
+        return isSetName();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof findTask_args)
+        return this.equals((findTask_args)that);
+      return false;
+    }
+
+    public boolean equals(findTask_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_name = true && this.isSetName();
+      boolean that_present_name = true && that.isSetName();
+      if (this_present_name || that_present_name) {
+        if (!(this_present_name && that_present_name))
+          return false;
+        if (!this.name.equals(that.name))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(findTask_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      findTask_args typedOther = (findTask_args)other;
+
+      lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("findTask_args(");
+      boolean first = true;
+
+      sb.append("name:");
+      if (this.name == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.name);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -2140,15 +2893,15 @@ public class DBTaskService {
       }
     }
 
-    private static class cancelTask_resultStandardSchemeFactory implements SchemeFactory {
-      public cancelTask_resultStandardScheme getScheme() {
-        return new cancelTask_resultStandardScheme();
+    private static class findTask_argsStandardSchemeFactory implements SchemeFactory {
+      public findTask_argsStandardScheme getScheme() {
+        return new findTask_argsStandardScheme();
       }
     }
 
-    private static class cancelTask_resultStandardScheme extends StandardScheme<cancelTask_result> {
+    private static class findTask_argsStandardScheme extends StandardScheme<findTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_args struct) throws TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -2158,6 +2911,14 @@ public class DBTaskService {
             break;
           }
           switch (schemeField.id) {
+            case 1: // NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.name = iprot.readString();
+                struct.setNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -2169,32 +2930,409 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_args struct) throws TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.name != null) {
+          oprot.writeFieldBegin(NAME_FIELD_DESC);
+          oprot.writeString(struct.name);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class cancelTask_resultTupleSchemeFactory implements SchemeFactory {
-      public cancelTask_resultTupleScheme getScheme() {
-        return new cancelTask_resultTupleScheme();
+    private static class findTask_argsTupleSchemeFactory implements SchemeFactory {
+      public findTask_argsTupleScheme getScheme() {
+        return new findTask_argsTupleScheme();
       }
     }
 
-    private static class cancelTask_resultTupleScheme extends TupleScheme<cancelTask_result> {
+    private static class findTask_argsTupleScheme extends TupleScheme<findTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetName()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetName()) {
+          oprot.writeString(struct.name);
+        }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.name = iprot.readString();
+          struct.setNameIsSet(true);
+        }
+      }
+    }
+
+  }
+
+  public static class findTask_result implements org.apache.thrift.TBase<findTask_result, findTask_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findTask_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
+    static {
+      schemes.put(StandardScheme.class, new findTask_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new findTask_resultTupleSchemeFactory());
+    }
+
+    public CTask success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CTask.class)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findTask_result.class, metaDataMap);
+    }
+
+    public findTask_result() {
+    }
+
+    public findTask_result(
+      CTask success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public findTask_result(findTask_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new CTask(other.success);
+      }
+    }
+
+    public findTask_result deepCopy() {
+      return new findTask_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    public CTask getSuccess() {
+      return this.success;
+    }
+
+    public findTask_result setSuccess(CTask success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((CTask)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof findTask_result)
+        return this.equals((findTask_result)that);
+      return false;
+    }
+
+    public boolean equals(findTask_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public int compareTo(findTask_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      findTask_result typedOther = (findTask_result)other;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+      }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("findTask_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check for sub-struct validity
+      if (success != null) {
+        success.validate();
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class findTask_resultStandardSchemeFactory implements SchemeFactory {
+      public findTask_resultStandardScheme getScheme() {
+        return new findTask_resultStandardScheme();
+      }
+    }
+
+    private static class findTask_resultStandardScheme extends StandardScheme<findTask_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_result struct) throws TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new CTask();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_result struct) throws TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class findTask_resultTupleSchemeFactory implements SchemeFactory {
+      public findTask_resultTupleScheme getScheme() {
+        return new findTask_resultTupleScheme();
+      }
+    }
+
+    private static class findTask_resultTupleScheme extends TupleScheme<findTask_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws TException {
+        TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws TException {
+        TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new CTask();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 
@@ -2449,6 +3587,7 @@ public class DBTaskService {
   public static class listTask_result implements org.apache.thrift.TBase<listTask_result, listTask_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("listTask_result");
 
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -2456,10 +3595,11 @@ public class DBTaskService {
       schemes.put(TupleScheme.class, new listTask_resultTupleSchemeFactory());
     }
 
+    public List<CTask> success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -2474,6 +3614,8 @@ public class DBTaskService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
           default:
             return null;
         }
@@ -2512,9 +3654,14 @@ public class DBTaskService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CTask.class))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(listTask_result.class, metaDataMap);
     }
@@ -2522,10 +3669,24 @@ public class DBTaskService {
     public listTask_result() {
     }
 
+    public listTask_result(
+      List<CTask> success)
+    {
+      this();
+      this.success = success;
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public listTask_result(listTask_result other) {
+      if (other.isSetSuccess()) {
+        List<CTask> __this__success = new ArrayList<CTask>();
+        for (CTask other_element : other.success) {
+          __this__success.add(new CTask(other_element));
+        }
+        this.success = __this__success;
+      }
     }
 
     public listTask_result deepCopy() {
@@ -2534,15 +3695,66 @@ public class DBTaskService {
 
     @Override
     public void clear() {
+      this.success = null;
+    }
+
+    public int getSuccessSize() {
+      return (this.success == null) ? 0 : this.success.size();
+    }
+
+    public java.util.Iterator<CTask> getSuccessIterator() {
+      return (this.success == null) ? null : this.success.iterator();
+    }
+
+    public void addToSuccess(CTask elem) {
+      if (this.success == null) {
+        this.success = new ArrayList<CTask>();
+      }
+      this.success.add(elem);
+    }
+
+    public List<CTask> getSuccess() {
+      return this.success;
+    }
+
+    public listTask_result setSuccess(List<CTask> success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((List<CTask>)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
       }
       throw new IllegalStateException();
     }
@@ -2554,6 +3766,8 @@ public class DBTaskService {
       }
 
       switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
       }
       throw new IllegalStateException();
     }
@@ -2571,6 +3785,15 @@ public class DBTaskService {
       if (that == null)
         return false;
 
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
       return true;
     }
 
@@ -2587,6 +3810,16 @@ public class DBTaskService {
       int lastComparison = 0;
       listTask_result typedOther = (listTask_result)other;
 
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -2607,6 +3840,13 @@ public class DBTaskService {
       StringBuilder sb = new StringBuilder("listTask_result(");
       boolean first = true;
 
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -2650,6 +3890,25 @@ public class DBTaskService {
             break;
           }
           switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
+                {
+                  org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                  struct.success = new ArrayList<CTask>(_list8.size);
+                  for (int _i9 = 0; _i9 < _list8.size; ++_i9)
+                  {
+                    CTask _elem10; // required
+                    _elem10 = new CTask();
+                    _elem10.read(iprot);
+                    struct.success.add(_elem10);
+                  }
+                  iprot.readListEnd();
+                }
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -2665,6 +3924,18 @@ public class DBTaskService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          {
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
+            for (CTask _iter11 : struct.success)
+            {
+              _iter11.write(oprot);
+            }
+            oprot.writeListEnd();
+          }
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -2682,11 +3953,40 @@ public class DBTaskService {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          {
+            oprot.writeI32(struct.success.size());
+            for (CTask _iter12 : struct.success)
+            {
+              _iter12.write(oprot);
+            }
+          }
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          {
+            org.apache.thrift.protocol.TList _list13 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new ArrayList<CTask>(_list13.size);
+            for (int _i14 = 0; _i14 < _list13.size; ++_i14)
+            {
+              CTask _elem15; // required
+              _elem15 = new CTask();
+              _elem15.read(iprot);
+              struct.success.add(_elem15);
+            }
+          }
+          struct.setSuccessIsSet(true);
+        }
       }
     }
 

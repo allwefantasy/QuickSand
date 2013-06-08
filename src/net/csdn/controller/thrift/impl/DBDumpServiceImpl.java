@@ -1,7 +1,7 @@
-package net.csdn.api.impl;
+package net.csdn.controller.thrift.impl;
 
-import net.csdn.api.DBDumpService;
-import net.csdn.api.document.CTask;
+import net.csdn.controller.thrift.DBDumpService;
+import net.csdn.controller.thrift.document.CTask;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.modules.thrift.ThriftApplication;

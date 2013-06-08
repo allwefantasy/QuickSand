@@ -6,6 +6,7 @@ import net.csdn.mongo.association.Options;
 import net.csdn.mongo.embedded.AssociationEmbedded;
 
 import static net.csdn.common.collections.WowCollections.map;
+import static net.csdn.mongo.validate.ValidateHelper.presence;
 
 /**
  * 5/30/13 WilliamZhu(allwefantasy@gmail.com)
@@ -13,11 +14,16 @@ import static net.csdn.common.collections.WowCollections.map;
 public class Task extends Document {
 
     static {
+
         storeIn("tasks");
         alias("name", "_id");
         hasManyEmbedded("dbs", new Options(map(
                 Options.n_kclass, DB.class
         )));
+
+        validate("name", map(presence, map("message", "name should not be empty")));
+        validate("cronTime", map(presence, map("message", "cronTime should not be empty")));
+        validate("userName", map(presence, map("message", "userName should not be empty")));
 
     }
 

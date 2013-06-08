@@ -13,7 +13,7 @@ module DBTaskService
 
     def createTask(task)
       send_createTask(task)
-      recv_createTask()
+      return recv_createTask()
     end
 
     def send_createTask(task)
@@ -22,12 +22,13 @@ module DBTaskService
 
     def recv_createTask()
       result = receive_message(CreateTask_result)
-      return
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'createTask failed: unknown result')
     end
 
     def startTask(name)
       send_startTask(name)
-      recv_startTask()
+      return recv_startTask()
     end
 
     def send_startTask(name)
@@ -36,12 +37,13 @@ module DBTaskService
 
     def recv_startTask()
       result = receive_message(StartTask_result)
-      return
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'startTask failed: unknown result')
     end
 
     def cancelTask(name)
       send_cancelTask(name)
-      recv_cancelTask()
+      return recv_cancelTask()
     end
 
     def send_cancelTask(name)
@@ -50,12 +52,28 @@ module DBTaskService
 
     def recv_cancelTask()
       result = receive_message(CancelTask_result)
-      return
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'cancelTask failed: unknown result')
+    end
+
+    def findTask(name)
+      send_findTask(name)
+      return recv_findTask()
+    end
+
+    def send_findTask(name)
+      send_message('findTask', FindTask_args, :name => name)
+    end
+
+    def recv_findTask()
+      result = receive_message(FindTask_result)
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'findTask failed: unknown result')
     end
 
     def listTask()
       send_listTask()
-      recv_listTask()
+      return recv_listTask()
     end
 
     def send_listTask()
@@ -64,7 +82,8 @@ module DBTaskService
 
     def recv_listTask()
       result = receive_message(ListTask_result)
-      return
+      return result.success unless result.success.nil?
+      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'listTask failed: unknown result')
     end
 
   end
@@ -75,28 +94,35 @@ module DBTaskService
     def process_createTask(seqid, iprot, oprot)
       args = read_args(iprot, CreateTask_args)
       result = CreateTask_result.new()
-      @handler.createTask(args.task)
+      result.success = @handler.createTask(args.task)
       write_result(result, oprot, 'createTask', seqid)
     end
 
     def process_startTask(seqid, iprot, oprot)
       args = read_args(iprot, StartTask_args)
       result = StartTask_result.new()
-      @handler.startTask(args.name)
+      result.success = @handler.startTask(args.name)
       write_result(result, oprot, 'startTask', seqid)
     end
 
     def process_cancelTask(seqid, iprot, oprot)
       args = read_args(iprot, CancelTask_args)
       result = CancelTask_result.new()
-      @handler.cancelTask(args.name)
+      result.success = @handler.cancelTask(args.name)
       write_result(result, oprot, 'cancelTask', seqid)
+    end
+
+    def process_findTask(seqid, iprot, oprot)
+      args = read_args(iprot, FindTask_args)
+      result = FindTask_result.new()
+      result.success = @handler.findTask(args.name)
+      write_result(result, oprot, 'findTask', seqid)
     end
 
     def process_listTask(seqid, iprot, oprot)
       args = read_args(iprot, ListTask_args)
       result = ListTask_result.new()
-      @handler.listTask()
+      result.success = @handler.listTask()
       write_result(result, oprot, 'listTask', seqid)
     end
 
@@ -122,9 +148,10 @@ module DBTaskService
 
   class CreateTask_result
     include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
 
     FIELDS = {
-
+      SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'}
     }
 
     def struct_fields; FIELDS; end
@@ -153,9 +180,10 @@ module DBTaskService
 
   class StartTask_result
     include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
 
     FIELDS = {
-
+      SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'}
     }
 
     def struct_fields; FIELDS; end
@@ -184,9 +212,42 @@ module DBTaskService
 
   class CancelTask_result
     include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
 
     FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'}
+    }
 
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class FindTask_args
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    NAME = 1
+
+    FIELDS = {
+      NAME => {:type => ::Thrift::Types::STRING, :name => 'name'}
+    }
+
+    def struct_fields; FIELDS; end
+
+    def validate
+    end
+
+    ::Thrift::Struct.generate_accessors self
+  end
+
+  class FindTask_result
+    include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
+
+    FIELDS = {
+      SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::CTask}
     }
 
     def struct_fields; FIELDS; end
@@ -214,9 +275,10 @@ module DBTaskService
 
   class ListTask_result
     include ::Thrift::Struct, ::Thrift::Struct_Union
+    SUCCESS = 0
 
     FIELDS = {
-
+      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::STRUCT, :class => ::CTask}}
     }
 
     def struct_fields; FIELDS; end

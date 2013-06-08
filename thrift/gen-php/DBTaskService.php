@@ -19,6 +19,7 @@ interface DBTaskServiceIf {
   public function createTask(\CTask $task);
   public function startTask($name);
   public function cancelTask($name);
+  public function findTask($name);
   public function listTask();
 }
 
@@ -36,7 +37,7 @@ class DBTaskServiceClient implements \DBTaskServiceIf {
   public function createTask(\CTask $task)
   {
     $this->send_createTask($task);
-    $this->recv_createTask();
+    return $this->recv_createTask();
   }
 
   public function send_createTask(\CTask $task)
@@ -78,13 +79,16 @@ class DBTaskServiceClient implements \DBTaskServiceIf {
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
-    return;
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("createTask failed: unknown result");
   }
 
   public function startTask($name)
   {
     $this->send_startTask($name);
-    $this->recv_startTask();
+    return $this->recv_startTask();
   }
 
   public function send_startTask($name)
@@ -126,13 +130,16 @@ class DBTaskServiceClient implements \DBTaskServiceIf {
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
-    return;
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("startTask failed: unknown result");
   }
 
   public function cancelTask($name)
   {
     $this->send_cancelTask($name);
-    $this->recv_cancelTask();
+    return $this->recv_cancelTask();
   }
 
   public function send_cancelTask($name)
@@ -174,13 +181,67 @@ class DBTaskServiceClient implements \DBTaskServiceIf {
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
-    return;
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("cancelTask failed: unknown result");
+  }
+
+  public function findTask($name)
+  {
+    $this->send_findTask($name);
+    return $this->recv_findTask();
+  }
+
+  public function send_findTask($name)
+  {
+    $args = new \DBTaskService_findTask_args();
+    $args->name = $name;
+    $bin_accel = ($this->output_ instanceof TProtocol::$TBINARYPROTOCOLACCELERATED) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'findTask', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('findTask', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_findTask()
+  {
+    $bin_accel = ($this->input_ instanceof TProtocol::$TBINARYPROTOCOLACCELERATED) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\DBTaskService_findTask_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \DBTaskService_findTask_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("findTask failed: unknown result");
   }
 
   public function listTask()
   {
     $this->send_listTask();
-    $this->recv_listTask();
+    return $this->recv_listTask();
   }
 
   public function send_listTask()
@@ -221,7 +282,10 @@ class DBTaskServiceClient implements \DBTaskServiceIf {
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
-    return;
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("listTask failed: unknown result");
   }
 
 }
@@ -308,11 +372,21 @@ class DBTaskService_createTask_args {
 class DBTaskService_createTask_result {
   static $_TSPEC;
 
+  public $success = null;
 
-  public function __construct() {
+  public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::BOOL,
+          ),
         );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
     }
   }
 
@@ -335,6 +409,13 @@ class DBTaskService_createTask_result {
       }
       switch ($fid)
       {
+        case 0:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->success);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -348,6 +429,11 @@ class DBTaskService_createTask_result {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('DBTaskService_createTask_result');
+    if ($this->success !== null) {
+      $xfer += $output->writeFieldBegin('success', TType::BOOL, 0);
+      $xfer += $output->writeBool($this->success);
+      $xfer += $output->writeFieldEnd();
+    }
     $xfer += $output->writeFieldStop();
     $xfer += $output->writeStructEnd();
     return $xfer;
@@ -430,11 +516,21 @@ class DBTaskService_startTask_args {
 class DBTaskService_startTask_result {
   static $_TSPEC;
 
+  public $success = null;
 
-  public function __construct() {
+  public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::BOOL,
+          ),
         );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
     }
   }
 
@@ -457,6 +553,13 @@ class DBTaskService_startTask_result {
       }
       switch ($fid)
       {
+        case 0:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->success);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -470,6 +573,11 @@ class DBTaskService_startTask_result {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('DBTaskService_startTask_result');
+    if ($this->success !== null) {
+      $xfer += $output->writeFieldBegin('success', TType::BOOL, 0);
+      $xfer += $output->writeBool($this->success);
+      $xfer += $output->writeFieldEnd();
+    }
     $xfer += $output->writeFieldStop();
     $xfer += $output->writeStructEnd();
     return $xfer;
@@ -552,11 +660,21 @@ class DBTaskService_cancelTask_args {
 class DBTaskService_cancelTask_result {
   static $_TSPEC;
 
+  public $success = null;
 
-  public function __construct() {
+  public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::BOOL,
+          ),
         );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
     }
   }
 
@@ -579,6 +697,13 @@ class DBTaskService_cancelTask_result {
       }
       switch ($fid)
       {
+        case 0:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->success);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -592,6 +717,160 @@ class DBTaskService_cancelTask_result {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('DBTaskService_cancelTask_result');
+    if ($this->success !== null) {
+      $xfer += $output->writeFieldBegin('success', TType::BOOL, 0);
+      $xfer += $output->writeBool($this->success);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class DBTaskService_findTask_args {
+  static $_TSPEC;
+
+  public $name = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'name',
+          'type' => TType::STRING,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['name'])) {
+        $this->name = $vals['name'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DBTaskService_findTask_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->name);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DBTaskService_findTask_args');
+    if ($this->name !== null) {
+      $xfer += $output->writeFieldBegin('name', TType::STRING, 1);
+      $xfer += $output->writeString($this->name);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class DBTaskService_findTask_result {
+  static $_TSPEC;
+
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::STRUCT,
+          'class' => '\CTask',
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'DBTaskService_findTask_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::STRUCT) {
+            $this->success = new \CTask();
+            $xfer += $this->success->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('DBTaskService_findTask_result');
+    if ($this->success !== null) {
+      if (!is_object($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::STRUCT, 0);
+      $xfer += $this->success->write($output);
+      $xfer += $output->writeFieldEnd();
+    }
     $xfer += $output->writeFieldStop();
     $xfer += $output->writeStructEnd();
     return $xfer;
@@ -652,11 +931,26 @@ class DBTaskService_listTask_args {
 class DBTaskService_listTask_result {
   static $_TSPEC;
 
+  public $success = null;
 
-  public function __construct() {
+  public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
+        0 => array(
+          'var' => 'success',
+          'type' => TType::LST,
+          'etype' => TType::STRUCT,
+          'elem' => array(
+            'type' => TType::STRUCT,
+            'class' => '\CTask',
+            ),
+          ),
         );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
     }
   }
 
@@ -679,6 +973,24 @@ class DBTaskService_listTask_result {
       }
       switch ($fid)
       {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size7 = 0;
+            $_etype10 = 0;
+            $xfer += $input->readListBegin($_etype10, $_size7);
+            for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
+            {
+              $elem12 = null;
+              $elem12 = new \CTask();
+              $xfer += $elem12->read($input);
+              $this->success []= $elem12;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -692,6 +1004,23 @@ class DBTaskService_listTask_result {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('DBTaskService_listTask_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter13)
+          {
+            $xfer += $iter13->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
     $xfer += $output->writeFieldStop();
     $xfer += $output->writeStructEnd();
     return $xfer;

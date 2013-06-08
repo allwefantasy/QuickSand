@@ -1,26 +1,22 @@
 package net.csdn.service.task;
 
 import com.google.inject.Inject;
-import net.csdn.api.DBDumpService;
-import net.csdn.api.document.CTask;
 import net.csdn.common.collect.Tuple;
 import net.csdn.common.logging.CSLogger;
 import net.csdn.common.logging.Loggers;
-import net.csdn.common.reflect.ReflectHelper;
 import net.csdn.common.settings.Settings;
+import net.csdn.controller.thrift.DBDumpService;
+import net.csdn.controller.thrift.document.CTask;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.modules.threadpool.ThreadPoolService;
 import net.csdn.modules.thrift.ThriftClient;
 import net.csdn.modules.thrift.util.PojoCopy;
-import net.csdn.mongo.Document;
 import net.csdn.util.cron.CronExpression;
-import org.apache.thrift.TBase;
 import org.joda.time.DateTime;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -60,28 +56,34 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void removeTask(String name) {
+    public boolean removeTask(String name) {
         cancelTask(name);
         triggers.remove(name);
         scheduleThreads.remove(name);
+        return true;
     }
 
     @Override
-    public void resumeTasks() {
+    public boolean resumeTasks() {
         for (Map.Entry<String, Tuple<CronExpression, Task>> entry : triggers.entrySet()) {
             CSDNFutureTask<Boolean> futureTask = scheduleThreads.get(entry.getKey());
             futureTask.start(threadPoolService);
         }
+        return true;
     }
 
     @Override
-    public void cancelTask(String name) {
+    public boolean cancelTask(String name) {
         scheduleThreads.get(name).stop();
+        return true;
     }
 
     @Override
-    public void startTask(String name) {
+    public boolean startTask(String name) {
+        CSDNFutureTask task = scheduleThreads.get(name);
+        if (task == null) return false;
         scheduleThreads.get(name).start(threadPoolService);
+        return true;
     }
 
     private void initialize() {
@@ -109,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
                         }
 
                         CSDNFutureTask futureTask = scheduleThreads.get(task.getName());
-                        if(futureTask==null)break;
+                        if (futureTask == null) break;
 
                         List<DB> dbs = task.dbs().find();
                         for (DB db : dbs) {

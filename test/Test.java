@@ -1,4 +1,4 @@
-import net.csdn.api.document.CTask;
+import net.csdn.controller.thrift.document.CTask;
 import net.csdn.document.Task;
 import org.apache.commons.beanutils.BeanUtils;
 
