@@ -59,6 +59,7 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
+    @Override
     public void removeTask(String name) {
         cancelTask(name);
         triggers.remove(name);
@@ -106,6 +107,10 @@ public class TaskServiceImpl implements TaskService {
                         while (new DateTime(nextValidTime).isAfterNow()) {
                             Thread.currentThread().sleep(3 * 1000);
                         }
+
+                        CSDNFutureTask futureTask = scheduleThreads.get(task.getName());
+                        if(futureTask==null)break;
+
                         List<DB> dbs = task.dbs().find();
                         for (DB db : dbs) {
                             dumpData(db);
@@ -129,8 +134,7 @@ public class TaskServiceImpl implements TaskService {
             public void execute(DBDumpService.Client client) {
                 try {
                     CTask task = new CTask();
-                    Task loalTask = db.task().findOne();
-                    PojoCopy.copyProperties(loalTask, task);
+                    PojoCopy.copyProperties(db.task().findOne(), task);
                     client.dump(task);
                 } catch (Exception e) {
                     e.printStackTrace();

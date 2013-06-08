@@ -10,6 +10,8 @@ import java.util.concurrent.FutureTask;
 public class CSDNFutureTask<T> {
     private FutureTask<T> futureTask;
     private volatile boolean isStarted = false;
+    private volatile boolean isFinished = true;
+    private volatile boolean isCanceled = false;
 
     public void start(ThreadPoolService threadPoolService) {
         threadPoolService.executor(ThreadPoolService.Names.CACHED).execute(futureTask);
@@ -18,7 +20,19 @@ public class CSDNFutureTask<T> {
 
     public void stop() {
         if (!isStarted || futureTask.isCancelled() || futureTask.isDone()) return;
-        futureTask.cancel(true);
+        isCanceled = futureTask.cancel(true);
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public boolean isCancel() {
+        return isCanceled;
     }
 
     public CSDNFutureTask(FutureTask<T> futureTask) {

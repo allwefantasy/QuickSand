@@ -6,7 +6,7 @@ import net.csdn.document.Task;
 /**
  * 5/30/13 WilliamZhu(allwefantasy@gmail.com)
  */
-@Service(implementedBy = TaskServiceImpl.class )
+@Service(implementedBy = TaskServiceImpl.class)
 public interface TaskService {
     public Task createTask(Task task);
 
@@ -15,4 +15,6 @@ public interface TaskService {
     public void cancelTask(String name);
 
     public void startTask(String name);
+
+    public void removeTask(String name);
 }
