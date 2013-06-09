@@ -3,11 +3,14 @@ package net.csdn.controller.http;
 import com.google.inject.Inject;
 import net.csdn.annotation.rest.At;
 import net.csdn.document.Task;
+import net.csdn.exception.CronParseException;
 import net.csdn.modules.http.ApplicationController;
 import net.csdn.modules.http.support.HttpStatus;
 import net.csdn.service.task.TaskService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import java.util.Map;
 
 import static net.csdn.filter.FilterHelper.BeforeFilter.only;
 import static net.csdn.modules.http.RestRequest.Method.*;
@@ -37,7 +40,19 @@ public class TaskController extends ApplicationController {
 
     @At(path = "/tasks/create", types = POST)
     public void createTask() {
-        taskService.createTask(task);
+        try {
+            taskService.createTask(task);
+        } catch (CronParseException e) {
+            render(HttpStatus.HttpStatusBadRequest, map(
+                    "ok", false, "message", "cron fromat wrong:" + e.getMessage()
+            ));
+        }
+        render(OK);
+    }
+
+    @At(path = "/tasks/start", types = POST)
+    public void startTask() {
+        taskService.startTask(param("name"));
         render(OK);
     }
 
@@ -53,6 +68,14 @@ public class TaskController extends ApplicationController {
         render(OK);
     }
 
+    @At(path = "/task_logs/query", types = {GET})
+    public void queryLog() {
+        render(map(
+                "ok", true,
+                "data", taskService.queryLog(param("taskName"), paramAsInt("start", 0), paramAsInt("size", 10))
+        ));
+    }
+
     private void nameValidate() {
         if (isEmpty(param("name"))) render(HttpStatus.HttpStatusBadRequest,
                 map("ok", false, "message", "name should not be empty")
@@ -60,7 +83,7 @@ public class TaskController extends ApplicationController {
     }
 
     private void taskCreateValidate() {
-        task = Task.create(params());
+        task = Task.create(paramAsJSON());
         if (!task.valid()) render(HttpStatus.HttpStatusBadRequest,
                 map("ok", false, "message", JSONArray.fromObject(task.validateResults).toArray())
         );

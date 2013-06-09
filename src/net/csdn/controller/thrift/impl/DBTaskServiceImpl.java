@@ -1,7 +1,8 @@
 package net.csdn.controller.thrift.impl;
 
+import net.csdn.controller.thrift.CTask;
+import net.csdn.controller.thrift.CTaskLog;
 import net.csdn.controller.thrift.DBTaskService;
-import net.csdn.controller.thrift.document.CTask;
 import net.csdn.document.Task;
 import net.csdn.modules.thrift.ThriftApplication;
 import net.csdn.modules.thrift.util.PojoCopy;
@@ -45,5 +46,17 @@ public class DBTaskServiceImpl extends ThriftApplication implements DBTaskServic
     @Override
     public List<CTask> listTask() throws TException {
         return PojoCopy.buildAll(Task.findAll(), CTask.class);
+    }
+
+    @Override
+    public CTask removeTask(String name) throws TException {
+        Task task = Task.findById(name);
+        task.remove();
+        return null;
+    }
+
+    @Override
+    public List<CTaskLog> queryLog(String name, int start, int size) throws TException {
+        return PojoCopy.buildAll(taskService.queryLog(name, start, size), CTaskLog.class);
     }
 }

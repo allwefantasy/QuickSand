@@ -24,8 +24,19 @@ struct CTask{
  5: i32 batchSaveNum
 }
 
+struct CTaskLog{
+ 1: string taskName;
+ 2: string message;
+ 3: string time;
+}
+
+exception DBException
+{
+    1:string msg
+}
+
 service DBDumpService{
-   void dump(1:CTask task)
+   void dump(1:CTask task) throws (1:DBException ex)
 }
 
 service DBLoadService{
@@ -33,9 +44,12 @@ service DBLoadService{
 }
 
 service DBTaskService{
-   bool createTask(1:CTask task)
+   bool createTask(1:CTask task) throws (1:DBException ex);
    bool startTask(1:string name);
    bool cancelTask(1:string name);
    CTask findTask(1:string name);
    list<CTask> listTask();
+
+   CTask removeTask(1:string name);
+   list<CTaskLog> queryLog(1:string name,2:i32 start,3:i32 size)
 }

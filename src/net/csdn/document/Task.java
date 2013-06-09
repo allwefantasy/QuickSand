@@ -16,7 +16,7 @@ public class Task extends Document {
     static {
 
         storeIn("tasks");
-        alias("name", "_id");
+        alias("_id", "name");
         hasManyEmbedded("dbs", new Options(map(
                 Options.n_kclass, DB.class
         )));

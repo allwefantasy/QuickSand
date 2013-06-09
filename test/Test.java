@@ -1,8 +1,12 @@
-import net.csdn.controller.thrift.document.CTask;
+import net.csdn.controller.thrift.CTask;
 import net.csdn.document.Task;
+import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
+
+import static net.csdn.common.collections.WowCollections.list;
+import static net.csdn.common.collections.WowCollections.map;
 
 /**
  * 5/30/13 WilliamZhu(allwefantasy@gmail.com)
@@ -15,7 +19,26 @@ public class Test {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-        testCopy();
+        System.out.println(JSONObject.fromObject(map(
+                "name", "test",
+                "cronTime", "*/5 * * ? * *",
+                "userName", "allwefantasy",
+                "created_at", "2013050312",
+                "dbs", list(
+                map(
+                        "sql", "select * from cf_conference",
+                        "dbHost", "CsdnTest",
+                        "dbPort", "3306",
+                        "dbUserName", "root",
+                        "dbPassword", "csdn.net",
+                        "dbName", "huiyi",
+                        "prefix", "huiyi",
+                        "driver", map(
+                        "driverName", "com.mysql.jdbc.Driver",
+                        "url", "jdbc:mysql://{}:{}/{}?useUnicode=true&characterEncoding=utf8"
+                )
+                ))
+        )).toString());
     }
 
     public static void testPojoCopy() {

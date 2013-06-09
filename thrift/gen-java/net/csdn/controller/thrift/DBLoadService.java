@@ -30,17 +30,17 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DBDumpService {
+public class DBLoadService {
 
   public interface Iface {
 
-    public void dump(CTask task) throws DBException, TException;
+    public void load(String prefix, String objectList) throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.dump_call> resultHandler) throws TException;
+    public void load(String prefix, String objectList, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.load_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -64,26 +64,24 @@ public class DBDumpService {
       super(iprot, oprot);
     }
 
-    public void dump(CTask task) throws DBException, TException
+    public void load(String prefix, String objectList) throws org.apache.thrift.TException
     {
-      send_dump(task);
-      recv_dump();
+      send_load(prefix, objectList);
+      recv_load();
     }
 
-    public void send_dump(CTask task) throws TException
+    public void send_load(String prefix, String objectList) throws org.apache.thrift.TException
     {
-      dump_args args = new dump_args();
-      args.setTask(task);
-      sendBase("dump", args);
+      load_args args = new load_args();
+      args.setPrefix(prefix);
+      args.setObjectList(objectList);
+      sendBase("load", args);
     }
 
-    public void recv_dump() throws DBException, TException
+    public void recv_load() throws org.apache.thrift.TException
     {
-      dump_result result = new dump_result();
-      receiveBase(result, "dump");
-      if (result.ex != null) {
-        throw result.ex;
-      }
+      load_result result = new load_result();
+      receiveBase(result, "load");
       return;
     }
 
@@ -105,35 +103,38 @@ public class DBDumpService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler) throws TException {
+    public void load(String prefix, String objectList, org.apache.thrift.async.AsyncMethodCallback<load_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      dump_call method_call = new dump_call(task, resultHandler, this, ___protocolFactory, ___transport);
+      load_call method_call = new load_call(prefix, objectList, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class dump_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private CTask task;
-      public dump_call(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+    public static class load_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private String prefix;
+      private String objectList;
+      public load_call(String prefix, String objectList, org.apache.thrift.async.AsyncMethodCallback<load_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.task = task;
+        this.prefix = prefix;
+        this.objectList = objectList;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("dump", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        dump_args args = new dump_args();
-        args.setTask(task);
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("load", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        load_args args = new load_args();
+        args.setPrefix(prefix);
+        args.setObjectList(objectList);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws DBException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        (new Client(prot)).recv_dump();
+        (new Client(prot)).recv_load();
       }
     }
 
@@ -150,52 +151,51 @@ public class DBDumpService {
     }
 
     private static <I extends Iface> Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> getProcessMap(Map<String,  org.apache.thrift.ProcessFunction<I, ? extends  org.apache.thrift.TBase>> processMap) {
-      processMap.put("dump", new dump());
+      processMap.put("load", new load());
       return processMap;
     }
 
-    public static class dump<I extends Iface> extends org.apache.thrift.ProcessFunction<I, dump_args> {
-      public dump() {
-        super("dump");
+    public static class load<I extends Iface> extends org.apache.thrift.ProcessFunction<I, load_args> {
+      public load() {
+        super("load");
       }
 
-      public dump_args getEmptyArgsInstance() {
-        return new dump_args();
+      public load_args getEmptyArgsInstance() {
+        return new load_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public dump_result getResult(I iface, dump_args args) throws TException {
-        dump_result result = new dump_result();
-        try {
-          iface.dump(args.task);
-        } catch (DBException ex) {
-          result.ex = ex;
-        }
+      public load_result getResult(I iface, load_args args) throws org.apache.thrift.TException {
+        load_result result = new load_result();
+        iface.load(args.prefix, args.objectList);
         return result;
       }
     }
 
   }
 
-  public static class dump_args implements org.apache.thrift.TBase<dump_args, dump_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("dump_args");
+  public static class load_args implements org.apache.thrift.TBase<load_args, load_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("load_args");
 
-    private static final org.apache.thrift.protocol.TField TASK_FIELD_DESC = new org.apache.thrift.protocol.TField("task", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField PREFIX_FIELD_DESC = new org.apache.thrift.protocol.TField("prefix", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField OBJECT_LIST_FIELD_DESC = new org.apache.thrift.protocol.TField("objectList", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new dump_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new dump_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new load_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new load_argsTupleSchemeFactory());
     }
 
-    public CTask task; // required
+    public String prefix; // required
+    public String objectList; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      TASK((short)1, "task");
+      PREFIX((short)1, "prefix"),
+      OBJECT_LIST((short)2, "objectList");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -210,8 +210,10 @@ public class DBDumpService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // TASK
-            return TASK;
+          case 1: // PREFIX
+            return PREFIX;
+          case 2: // OBJECT_LIST
+            return OBJECT_LIST;
           default:
             return null;
         }
@@ -255,71 +257,111 @@ public class DBDumpService {
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.TASK, new org.apache.thrift.meta_data.FieldMetaData("task", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, CTask.class)));
+      tmpMap.put(_Fields.PREFIX, new org.apache.thrift.meta_data.FieldMetaData("prefix", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.OBJECT_LIST, new org.apache.thrift.meta_data.FieldMetaData("objectList", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(dump_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(load_args.class, metaDataMap);
     }
 
-    public dump_args() {
+    public load_args() {
     }
 
-    public dump_args(
-      CTask task)
+    public load_args(
+      String prefix,
+      String objectList)
     {
       this();
-      this.task = task;
+      this.prefix = prefix;
+      this.objectList = objectList;
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public dump_args(dump_args other) {
-      if (other.isSetTask()) {
-        this.task = new CTask(other.task);
+    public load_args(load_args other) {
+      if (other.isSetPrefix()) {
+        this.prefix = other.prefix;
+      }
+      if (other.isSetObjectList()) {
+        this.objectList = other.objectList;
       }
     }
 
-    public dump_args deepCopy() {
-      return new dump_args(this);
+    public load_args deepCopy() {
+      return new load_args(this);
     }
 
     @Override
     public void clear() {
-      this.task = null;
+      this.prefix = null;
+      this.objectList = null;
     }
 
-    public CTask getTask() {
-      return this.task;
+    public String getPrefix() {
+      return this.prefix;
     }
 
-    public dump_args setTask(CTask task) {
-      this.task = task;
+    public load_args setPrefix(String prefix) {
+      this.prefix = prefix;
       return this;
     }
 
-    public void unsetTask() {
-      this.task = null;
+    public void unsetPrefix() {
+      this.prefix = null;
     }
 
-    /** Returns true if field task is set (has been assigned a value) and false otherwise */
-    public boolean isSetTask() {
-      return this.task != null;
+    /** Returns true if field prefix is set (has been assigned a value) and false otherwise */
+    public boolean isSetPrefix() {
+      return this.prefix != null;
     }
 
-    public void setTaskIsSet(boolean value) {
+    public void setPrefixIsSet(boolean value) {
       if (!value) {
-        this.task = null;
+        this.prefix = null;
+      }
+    }
+
+    public String getObjectList() {
+      return this.objectList;
+    }
+
+    public load_args setObjectList(String objectList) {
+      this.objectList = objectList;
+      return this;
+    }
+
+    public void unsetObjectList() {
+      this.objectList = null;
+    }
+
+    /** Returns true if field objectList is set (has been assigned a value) and false otherwise */
+    public boolean isSetObjectList() {
+      return this.objectList != null;
+    }
+
+    public void setObjectListIsSet(boolean value) {
+      if (!value) {
+        this.objectList = null;
       }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case TASK:
+      case PREFIX:
         if (value == null) {
-          unsetTask();
+          unsetPrefix();
         } else {
-          setTask((CTask)value);
+          setPrefix((String)value);
+        }
+        break;
+
+      case OBJECT_LIST:
+        if (value == null) {
+          unsetObjectList();
+        } else {
+          setObjectList((String)value);
         }
         break;
 
@@ -328,8 +370,11 @@ public class DBDumpService {
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case TASK:
-        return getTask();
+      case PREFIX:
+        return getPrefix();
+
+      case OBJECT_LIST:
+        return getObjectList();
 
       }
       throw new IllegalStateException();
@@ -342,8 +387,10 @@ public class DBDumpService {
       }
 
       switch (field) {
-      case TASK:
-        return isSetTask();
+      case PREFIX:
+        return isSetPrefix();
+      case OBJECT_LIST:
+        return isSetObjectList();
       }
       throw new IllegalStateException();
     }
@@ -352,21 +399,30 @@ public class DBDumpService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof dump_args)
-        return this.equals((dump_args)that);
+      if (that instanceof load_args)
+        return this.equals((load_args)that);
       return false;
     }
 
-    public boolean equals(dump_args that) {
+    public boolean equals(load_args that) {
       if (that == null)
         return false;
 
-      boolean this_present_task = true && this.isSetTask();
-      boolean that_present_task = true && that.isSetTask();
-      if (this_present_task || that_present_task) {
-        if (!(this_present_task && that_present_task))
+      boolean this_present_prefix = true && this.isSetPrefix();
+      boolean that_present_prefix = true && that.isSetPrefix();
+      if (this_present_prefix || that_present_prefix) {
+        if (!(this_present_prefix && that_present_prefix))
           return false;
-        if (!this.task.equals(that.task))
+        if (!this.prefix.equals(that.prefix))
+          return false;
+      }
+
+      boolean this_present_objectList = true && this.isSetObjectList();
+      boolean that_present_objectList = true && that.isSetObjectList();
+      if (this_present_objectList || that_present_objectList) {
+        if (!(this_present_objectList && that_present_objectList))
+          return false;
+        if (!this.objectList.equals(that.objectList))
           return false;
       }
 
@@ -378,20 +434,30 @@ public class DBDumpService {
       return 0;
     }
 
-    public int compareTo(dump_args other) {
+    public int compareTo(load_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      dump_args typedOther = (dump_args)other;
+      load_args typedOther = (load_args)other;
 
-      lastComparison = Boolean.valueOf(isSetTask()).compareTo(typedOther.isSetTask());
+      lastComparison = Boolean.valueOf(isSetPrefix()).compareTo(typedOther.isSetPrefix());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetTask()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.task, typedOther.task);
+      if (isSetPrefix()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.prefix, typedOther.prefix);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetObjectList()).compareTo(typedOther.isSetObjectList());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetObjectList()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.objectList, typedOther.objectList);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -403,42 +469,47 @@ public class DBDumpService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("dump_args(");
+      StringBuilder sb = new StringBuilder("load_args(");
       boolean first = true;
 
-      sb.append("task:");
-      if (this.task == null) {
+      sb.append("prefix:");
+      if (this.prefix == null) {
         sb.append("null");
       } else {
-        sb.append(this.task);
+        sb.append(this.prefix);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("objectList:");
+      if (this.objectList == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.objectList);
       }
       first = false;
       sb.append(")");
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
-      if (task != null) {
-        task.validate();
-      }
     }
 
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -446,20 +517,20 @@ public class DBDumpService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
 
-    private static class dump_argsStandardSchemeFactory implements SchemeFactory {
-      public dump_argsStandardScheme getScheme() {
-        return new dump_argsStandardScheme();
+    private static class load_argsStandardSchemeFactory implements SchemeFactory {
+      public load_argsStandardScheme getScheme() {
+        return new load_argsStandardScheme();
       }
     }
 
-    private static class dump_argsStandardScheme extends StandardScheme<dump_args> {
+    private static class load_argsStandardScheme extends StandardScheme<load_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, load_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -469,11 +540,18 @@ public class DBDumpService {
             break;
           }
           switch (schemeField.id) {
-            case 1: // TASK
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.task = new CTask();
-                struct.task.read(iprot);
-                struct.setTaskIsSet(true);
+            case 1: // PREFIX
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.prefix = iprot.readString();
+                struct.setPrefixIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // OBJECT_LIST
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.objectList = iprot.readString();
+                struct.setObjectListIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -489,13 +567,18 @@ public class DBDumpService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, load_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.task != null) {
-          oprot.writeFieldBegin(TASK_FIELD_DESC);
-          struct.task.write(oprot);
+        if (struct.prefix != null) {
+          oprot.writeFieldBegin(PREFIX_FIELD_DESC);
+          oprot.writeString(struct.prefix);
+          oprot.writeFieldEnd();
+        }
+        if (struct.objectList != null) {
+          oprot.writeFieldBegin(OBJECT_LIST_FIELD_DESC);
+          oprot.writeString(struct.objectList);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -504,57 +587,64 @@ public class DBDumpService {
 
     }
 
-    private static class dump_argsTupleSchemeFactory implements SchemeFactory {
-      public dump_argsTupleScheme getScheme() {
-        return new dump_argsTupleScheme();
+    private static class load_argsTupleSchemeFactory implements SchemeFactory {
+      public load_argsTupleScheme getScheme() {
+        return new load_argsTupleScheme();
       }
     }
 
-    private static class dump_argsTupleScheme extends TupleScheme<dump_args> {
+    private static class load_argsTupleScheme extends TupleScheme<load_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, load_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
-        if (struct.isSetTask()) {
+        if (struct.isSetPrefix()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetTask()) {
-          struct.task.write(oprot);
+        if (struct.isSetObjectList()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetPrefix()) {
+          oprot.writeString(struct.prefix);
+        }
+        if (struct.isSetObjectList()) {
+          oprot.writeString(struct.objectList);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, load_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.task = new CTask();
-          struct.task.read(iprot);
-          struct.setTaskIsSet(true);
+          struct.prefix = iprot.readString();
+          struct.setPrefixIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.objectList = iprot.readString();
+          struct.setObjectListIsSet(true);
         }
       }
     }
 
   }
 
-  public static class dump_result implements org.apache.thrift.TBase<dump_result, dump_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("dump_result");
+  public static class load_result implements org.apache.thrift.TBase<load_result, load_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("load_result");
 
-    private static final org.apache.thrift.protocol.TField EX_FIELD_DESC = new org.apache.thrift.protocol.TField("ex", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new dump_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new dump_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new load_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new load_resultTupleSchemeFactory());
     }
 
-    public DBException ex; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      EX((short)1, "ex");
+;
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -569,8 +659,6 @@ public class DBDumpService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // EX
-            return EX;
           default:
             return null;
         }
@@ -609,87 +697,37 @@ public class DBDumpService {
         return _fieldName;
       }
     }
-
-    // isset id assignments
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.EX, new org.apache.thrift.meta_data.FieldMetaData("ex", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(dump_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(load_result.class, metaDataMap);
     }
 
-    public dump_result() {
-    }
-
-    public dump_result(
-      DBException ex)
-    {
-      this();
-      this.ex = ex;
+    public load_result() {
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public dump_result(dump_result other) {
-      if (other.isSetEx()) {
-        this.ex = new DBException(other.ex);
-      }
+    public load_result(load_result other) {
     }
 
-    public dump_result deepCopy() {
-      return new dump_result(this);
+    public load_result deepCopy() {
+      return new load_result(this);
     }
 
     @Override
     public void clear() {
-      this.ex = null;
-    }
-
-    public DBException getEx() {
-      return this.ex;
-    }
-
-    public dump_result setEx(DBException ex) {
-      this.ex = ex;
-      return this;
-    }
-
-    public void unsetEx() {
-      this.ex = null;
-    }
-
-    /** Returns true if field ex is set (has been assigned a value) and false otherwise */
-    public boolean isSetEx() {
-      return this.ex != null;
-    }
-
-    public void setExIsSet(boolean value) {
-      if (!value) {
-        this.ex = null;
-      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case EX:
-        if (value == null) {
-          unsetEx();
-        } else {
-          setEx((DBException)value);
-        }
-        break;
-
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case EX:
-        return getEx();
-
       }
       throw new IllegalStateException();
     }
@@ -701,8 +739,6 @@ public class DBDumpService {
       }
 
       switch (field) {
-      case EX:
-        return isSetEx();
       }
       throw new IllegalStateException();
     }
@@ -711,23 +747,14 @@ public class DBDumpService {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof dump_result)
-        return this.equals((dump_result)that);
+      if (that instanceof load_result)
+        return this.equals((load_result)that);
       return false;
     }
 
-    public boolean equals(dump_result that) {
+    public boolean equals(load_result that) {
       if (that == null)
         return false;
-
-      boolean this_present_ex = true && this.isSetEx();
-      boolean that_present_ex = true && that.isSetEx();
-      if (this_present_ex || that_present_ex) {
-        if (!(this_present_ex && that_present_ex))
-          return false;
-        if (!this.ex.equals(that.ex))
-          return false;
-      }
 
       return true;
     }
@@ -737,24 +764,14 @@ public class DBDumpService {
       return 0;
     }
 
-    public int compareTo(dump_result other) {
+    public int compareTo(load_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      dump_result typedOther = (dump_result)other;
+      load_result typedOther = (load_result)other;
 
-      lastComparison = Boolean.valueOf(isSetEx()).compareTo(typedOther.isSetEx());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetEx()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ex, typedOther.ex);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
       return 0;
     }
 
@@ -762,31 +779,24 @@ public class DBDumpService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("dump_result(");
+      StringBuilder sb = new StringBuilder("load_result(");
       boolean first = true;
 
-      sb.append("ex:");
-      if (this.ex == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.ex);
-      }
-      first = false;
       sb.append(")");
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -794,7 +804,7 @@ public class DBDumpService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -802,20 +812,20 @@ public class DBDumpService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
 
-    private static class dump_resultStandardSchemeFactory implements SchemeFactory {
-      public dump_resultStandardScheme getScheme() {
-        return new dump_resultStandardScheme();
+    private static class load_resultStandardSchemeFactory implements SchemeFactory {
+      public load_resultStandardScheme getScheme() {
+        return new load_resultStandardScheme();
       }
     }
 
-    private static class dump_resultStandardScheme extends StandardScheme<dump_result> {
+    private static class load_resultStandardScheme extends StandardScheme<load_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, load_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -825,15 +835,6 @@ public class DBDumpService {
             break;
           }
           switch (schemeField.id) {
-            case 1: // EX
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
-                struct.ex = new DBException();
-                struct.ex.read(iprot);
-                struct.setExIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -845,51 +846,32 @@ public class DBDumpService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, load_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.ex != null) {
-          oprot.writeFieldBegin(EX_FIELD_DESC);
-          struct.ex.write(oprot);
-          oprot.writeFieldEnd();
-        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
 
     }
 
-    private static class dump_resultTupleSchemeFactory implements SchemeFactory {
-      public dump_resultTupleScheme getScheme() {
-        return new dump_resultTupleScheme();
+    private static class load_resultTupleSchemeFactory implements SchemeFactory {
+      public load_resultTupleScheme getScheme() {
+        return new load_resultTupleScheme();
       }
     }
 
-    private static class dump_resultTupleScheme extends TupleScheme<dump_result> {
+    private static class load_resultTupleScheme extends TupleScheme<load_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, load_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetEx()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetEx()) {
-          struct.ex.write(oprot);
-        }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, load_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.ex = new DBException();
-          struct.ex.read(iprot);
-          struct.setExIsSet(true);
-        }
       }
     }
 

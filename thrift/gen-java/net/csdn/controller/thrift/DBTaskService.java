@@ -34,37 +34,37 @@ public class DBTaskService {
 
   public interface Iface {
 
-    public boolean createTask(CTask task) throws DBException, TException;
+    public boolean createTask(CTask task) throws DBException, org.apache.thrift.TException;
 
-    public boolean startTask(String name) throws TException;
+    public boolean startTask(String name) throws org.apache.thrift.TException;
 
-    public boolean cancelTask(String name) throws TException;
+    public boolean cancelTask(String name) throws org.apache.thrift.TException;
 
-    public CTask findTask(String name) throws TException;
+    public CTask findTask(String name) throws org.apache.thrift.TException;
 
-    public List<CTask> listTask() throws TException;
+    public List<CTask> listTask() throws org.apache.thrift.TException;
 
-    public CTask removeTask(String name) throws TException;
+    public CTask removeTask(String name) throws org.apache.thrift.TException;
 
-    public List<CTaskLog> queryLog(String name, int start, int size) throws TException;
+    public List<CTaskLog> queryLog(String name, int start, int size) throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void createTask(CTask task, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createTask_call> resultHandler) throws TException;
+    public void createTask(CTask task, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.createTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void startTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.startTask_call> resultHandler) throws TException;
+    public void startTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.startTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void cancelTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.cancelTask_call> resultHandler) throws TException;
+    public void cancelTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.cancelTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findTask_call> resultHandler) throws TException;
+    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void listTask(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listTask_call> resultHandler) throws TException;
+    public void listTask(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.listTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void removeTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.removeTask_call> resultHandler) throws TException;
+    public void removeTask(String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.removeTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void queryLog(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.queryLog_call> resultHandler) throws TException;
+    public void queryLog(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.queryLog_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -88,20 +88,20 @@ public class DBTaskService {
       super(iprot, oprot);
     }
 
-    public boolean createTask(CTask task) throws DBException, TException
+    public boolean createTask(CTask task) throws DBException, org.apache.thrift.TException
     {
       send_createTask(task);
       return recv_createTask();
     }
 
-    public void send_createTask(CTask task) throws TException
+    public void send_createTask(CTask task) throws org.apache.thrift.TException
     {
       createTask_args args = new createTask_args();
       args.setTask(task);
       sendBase("createTask", args);
     }
 
-    public boolean recv_createTask() throws DBException, TException
+    public boolean recv_createTask() throws DBException, org.apache.thrift.TException
     {
       createTask_result result = new createTask_result();
       receiveBase(result, "createTask");
@@ -114,20 +114,20 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "createTask failed: unknown result");
     }
 
-    public boolean startTask(String name) throws TException
+    public boolean startTask(String name) throws org.apache.thrift.TException
     {
       send_startTask(name);
       return recv_startTask();
     }
 
-    public void send_startTask(String name) throws TException
+    public void send_startTask(String name) throws org.apache.thrift.TException
     {
       startTask_args args = new startTask_args();
       args.setName(name);
       sendBase("startTask", args);
     }
 
-    public boolean recv_startTask() throws TException
+    public boolean recv_startTask() throws org.apache.thrift.TException
     {
       startTask_result result = new startTask_result();
       receiveBase(result, "startTask");
@@ -137,20 +137,20 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "startTask failed: unknown result");
     }
 
-    public boolean cancelTask(String name) throws TException
+    public boolean cancelTask(String name) throws org.apache.thrift.TException
     {
       send_cancelTask(name);
       return recv_cancelTask();
     }
 
-    public void send_cancelTask(String name) throws TException
+    public void send_cancelTask(String name) throws org.apache.thrift.TException
     {
       cancelTask_args args = new cancelTask_args();
       args.setName(name);
       sendBase("cancelTask", args);
     }
 
-    public boolean recv_cancelTask() throws TException
+    public boolean recv_cancelTask() throws org.apache.thrift.TException
     {
       cancelTask_result result = new cancelTask_result();
       receiveBase(result, "cancelTask");
@@ -160,20 +160,20 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "cancelTask failed: unknown result");
     }
 
-    public CTask findTask(String name) throws TException
+    public CTask findTask(String name) throws org.apache.thrift.TException
     {
       send_findTask(name);
       return recv_findTask();
     }
 
-    public void send_findTask(String name) throws TException
+    public void send_findTask(String name) throws org.apache.thrift.TException
     {
       findTask_args args = new findTask_args();
       args.setName(name);
       sendBase("findTask", args);
     }
 
-    public CTask recv_findTask() throws TException
+    public CTask recv_findTask() throws org.apache.thrift.TException
     {
       findTask_result result = new findTask_result();
       receiveBase(result, "findTask");
@@ -183,19 +183,19 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findTask failed: unknown result");
     }
 
-    public List<CTask> listTask() throws TException
+    public List<CTask> listTask() throws org.apache.thrift.TException
     {
       send_listTask();
       return recv_listTask();
     }
 
-    public void send_listTask() throws TException
+    public void send_listTask() throws org.apache.thrift.TException
     {
       listTask_args args = new listTask_args();
       sendBase("listTask", args);
     }
 
-    public List<CTask> recv_listTask() throws TException
+    public List<CTask> recv_listTask() throws org.apache.thrift.TException
     {
       listTask_result result = new listTask_result();
       receiveBase(result, "listTask");
@@ -205,20 +205,20 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "listTask failed: unknown result");
     }
 
-    public CTask removeTask(String name) throws TException
+    public CTask removeTask(String name) throws org.apache.thrift.TException
     {
       send_removeTask(name);
       return recv_removeTask();
     }
 
-    public void send_removeTask(String name) throws TException
+    public void send_removeTask(String name) throws org.apache.thrift.TException
     {
       removeTask_args args = new removeTask_args();
       args.setName(name);
       sendBase("removeTask", args);
     }
 
-    public CTask recv_removeTask() throws TException
+    public CTask recv_removeTask() throws org.apache.thrift.TException
     {
       removeTask_result result = new removeTask_result();
       receiveBase(result, "removeTask");
@@ -228,13 +228,13 @@ public class DBTaskService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "removeTask failed: unknown result");
     }
 
-    public List<CTaskLog> queryLog(String name, int start, int size) throws TException
+    public List<CTaskLog> queryLog(String name, int start, int size) throws org.apache.thrift.TException
     {
       send_queryLog(name, start, size);
       return recv_queryLog();
     }
 
-    public void send_queryLog(String name, int start, int size) throws TException
+    public void send_queryLog(String name, int start, int size) throws org.apache.thrift.TException
     {
       queryLog_args args = new queryLog_args();
       args.setName(name);
@@ -243,7 +243,7 @@ public class DBTaskService {
       sendBase("queryLog", args);
     }
 
-    public List<CTaskLog> recv_queryLog() throws TException
+    public List<CTaskLog> recv_queryLog() throws org.apache.thrift.TException
     {
       queryLog_result result = new queryLog_result();
       receiveBase(result, "queryLog");
@@ -271,7 +271,7 @@ public class DBTaskService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void createTask(CTask task, org.apache.thrift.async.AsyncMethodCallback<createTask_call> resultHandler) throws TException {
+    public void createTask(CTask task, org.apache.thrift.async.AsyncMethodCallback<createTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       createTask_call method_call = new createTask_call(task, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -280,12 +280,12 @@ public class DBTaskService {
 
     public static class createTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private CTask task;
-      public createTask_call(CTask task, org.apache.thrift.async.AsyncMethodCallback<createTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public createTask_call(CTask task, org.apache.thrift.async.AsyncMethodCallback<createTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.task = task;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("createTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         createTask_args args = new createTask_args();
         args.setTask(task);
@@ -293,8 +293,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws DBException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws DBException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -303,7 +303,7 @@ public class DBTaskService {
       }
     }
 
-    public void startTask(String name, org.apache.thrift.async.AsyncMethodCallback<startTask_call> resultHandler) throws TException {
+    public void startTask(String name, org.apache.thrift.async.AsyncMethodCallback<startTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       startTask_call method_call = new startTask_call(name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -312,12 +312,12 @@ public class DBTaskService {
 
     public static class startTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
-      public startTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<startTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public startTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<startTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("startTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         startTask_args args = new startTask_args();
         args.setName(name);
@@ -325,8 +325,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -335,7 +335,7 @@ public class DBTaskService {
       }
     }
 
-    public void cancelTask(String name, org.apache.thrift.async.AsyncMethodCallback<cancelTask_call> resultHandler) throws TException {
+    public void cancelTask(String name, org.apache.thrift.async.AsyncMethodCallback<cancelTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       cancelTask_call method_call = new cancelTask_call(name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -344,12 +344,12 @@ public class DBTaskService {
 
     public static class cancelTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
-      public cancelTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<cancelTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public cancelTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<cancelTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("cancelTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         cancelTask_args args = new cancelTask_args();
         args.setName(name);
@@ -357,8 +357,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -367,7 +367,7 @@ public class DBTaskService {
       }
     }
 
-    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler) throws TException {
+    public void findTask(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       findTask_call method_call = new findTask_call(name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -376,12 +376,12 @@ public class DBTaskService {
 
     public static class findTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
-      public findTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public findTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<findTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("findTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         findTask_args args = new findTask_args();
         args.setName(name);
@@ -389,8 +389,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public CTask getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public CTask getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -399,7 +399,7 @@ public class DBTaskService {
       }
     }
 
-    public void listTask(org.apache.thrift.async.AsyncMethodCallback<listTask_call> resultHandler) throws TException {
+    public void listTask(org.apache.thrift.async.AsyncMethodCallback<listTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       listTask_call method_call = new listTask_call(resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -407,19 +407,19 @@ public class DBTaskService {
     }
 
     public static class listTask_call extends org.apache.thrift.async.TAsyncMethodCall {
-      public listTask_call(org.apache.thrift.async.AsyncMethodCallback<listTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public listTask_call(org.apache.thrift.async.AsyncMethodCallback<listTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("listTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         listTask_args args = new listTask_args();
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public List<CTask> getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<CTask> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -428,7 +428,7 @@ public class DBTaskService {
       }
     }
 
-    public void removeTask(String name, org.apache.thrift.async.AsyncMethodCallback<removeTask_call> resultHandler) throws TException {
+    public void removeTask(String name, org.apache.thrift.async.AsyncMethodCallback<removeTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       removeTask_call method_call = new removeTask_call(name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -437,12 +437,12 @@ public class DBTaskService {
 
     public static class removeTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
-      public removeTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<removeTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public removeTask_call(String name, org.apache.thrift.async.AsyncMethodCallback<removeTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("removeTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         removeTask_args args = new removeTask_args();
         args.setName(name);
@@ -450,8 +450,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public CTask getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public CTask getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -460,7 +460,7 @@ public class DBTaskService {
       }
     }
 
-    public void queryLog(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<queryLog_call> resultHandler) throws TException {
+    public void queryLog(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<queryLog_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       queryLog_call method_call = new queryLog_call(name, start, size, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -471,14 +471,14 @@ public class DBTaskService {
       private String name;
       private int start;
       private int size;
-      public queryLog_call(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<queryLog_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public queryLog_call(String name, int start, int size, org.apache.thrift.async.AsyncMethodCallback<queryLog_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
         this.start = start;
         this.size = size;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("queryLog", org.apache.thrift.protocol.TMessageType.CALL, 0));
         queryLog_args args = new queryLog_args();
         args.setName(name);
@@ -488,8 +488,8 @@ public class DBTaskService {
         prot.writeMessageEnd();
       }
 
-      public List<CTaskLog> getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<CTaskLog> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -534,7 +534,7 @@ public class DBTaskService {
         return false;
       }
 
-      public createTask_result getResult(I iface, createTask_args args) throws TException {
+      public createTask_result getResult(I iface, createTask_args args) throws org.apache.thrift.TException {
         createTask_result result = new createTask_result();
         try {
           result.success = iface.createTask(args.task);
@@ -559,7 +559,7 @@ public class DBTaskService {
         return false;
       }
 
-      public startTask_result getResult(I iface, startTask_args args) throws TException {
+      public startTask_result getResult(I iface, startTask_args args) throws org.apache.thrift.TException {
         startTask_result result = new startTask_result();
         result.success = iface.startTask(args.name);
         result.setSuccessIsSet(true);
@@ -580,7 +580,7 @@ public class DBTaskService {
         return false;
       }
 
-      public cancelTask_result getResult(I iface, cancelTask_args args) throws TException {
+      public cancelTask_result getResult(I iface, cancelTask_args args) throws org.apache.thrift.TException {
         cancelTask_result result = new cancelTask_result();
         result.success = iface.cancelTask(args.name);
         result.setSuccessIsSet(true);
@@ -601,7 +601,7 @@ public class DBTaskService {
         return false;
       }
 
-      public findTask_result getResult(I iface, findTask_args args) throws TException {
+      public findTask_result getResult(I iface, findTask_args args) throws org.apache.thrift.TException {
         findTask_result result = new findTask_result();
         result.success = iface.findTask(args.name);
         return result;
@@ -621,7 +621,7 @@ public class DBTaskService {
         return false;
       }
 
-      public listTask_result getResult(I iface, listTask_args args) throws TException {
+      public listTask_result getResult(I iface, listTask_args args) throws org.apache.thrift.TException {
         listTask_result result = new listTask_result();
         result.success = iface.listTask();
         return result;
@@ -641,7 +641,7 @@ public class DBTaskService {
         return false;
       }
 
-      public removeTask_result getResult(I iface, removeTask_args args) throws TException {
+      public removeTask_result getResult(I iface, removeTask_args args) throws org.apache.thrift.TException {
         removeTask_result result = new removeTask_result();
         result.success = iface.removeTask(args.name);
         return result;
@@ -661,7 +661,7 @@ public class DBTaskService {
         return false;
       }
 
-      public queryLog_result getResult(I iface, queryLog_args args) throws TException {
+      public queryLog_result getResult(I iface, queryLog_args args) throws org.apache.thrift.TException {
         queryLog_result result = new queryLog_result();
         result.success = iface.queryLog(args.name, args.start, args.size);
         return result;
@@ -893,11 +893,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -917,7 +917,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
       if (task != null) {
@@ -928,7 +928,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -936,7 +936,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -949,7 +949,7 @@ public class DBTaskService {
 
     private static class createTask_argsStandardScheme extends StandardScheme<createTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, createTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, createTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -979,7 +979,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, createTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, createTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1003,7 +1003,7 @@ public class DBTaskService {
     private static class createTask_argsTupleScheme extends TupleScheme<createTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, createTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, createTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetTask()) {
@@ -1016,7 +1016,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, createTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, createTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -1323,11 +1323,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -1351,7 +1351,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -1359,7 +1359,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1369,7 +1369,7 @@ public class DBTaskService {
         // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
         __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1382,7 +1382,7 @@ public class DBTaskService {
 
     private static class createTask_resultStandardScheme extends StandardScheme<createTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, createTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, createTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1420,7 +1420,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, createTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, createTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1449,7 +1449,7 @@ public class DBTaskService {
     private static class createTask_resultTupleScheme extends TupleScheme<createTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -1468,7 +1468,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, createTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
@@ -1708,11 +1708,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -1732,7 +1732,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -1740,7 +1740,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1748,7 +1748,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -1761,7 +1761,7 @@ public class DBTaskService {
 
     private static class startTask_argsStandardScheme extends StandardScheme<startTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, startTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, startTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -1790,7 +1790,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, startTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, startTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -1814,7 +1814,7 @@ public class DBTaskService {
     private static class startTask_argsTupleScheme extends TupleScheme<startTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, startTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, startTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetName()) {
@@ -1827,7 +1827,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, startTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, startTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -2064,11 +2064,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -2084,7 +2084,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -2092,7 +2092,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2102,7 +2102,7 @@ public class DBTaskService {
         // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
         __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2115,7 +2115,7 @@ public class DBTaskService {
 
     private static class startTask_resultStandardScheme extends StandardScheme<startTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, startTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, startTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -2144,7 +2144,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, startTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, startTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -2168,7 +2168,7 @@ public class DBTaskService {
     private static class startTask_resultTupleScheme extends TupleScheme<startTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -2181,7 +2181,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, startTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -2416,11 +2416,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -2440,7 +2440,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -2448,7 +2448,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2456,7 +2456,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2469,7 +2469,7 @@ public class DBTaskService {
 
     private static class cancelTask_argsStandardScheme extends StandardScheme<cancelTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -2498,7 +2498,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -2522,7 +2522,7 @@ public class DBTaskService {
     private static class cancelTask_argsTupleScheme extends TupleScheme<cancelTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetName()) {
@@ -2535,7 +2535,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -2772,11 +2772,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -2792,7 +2792,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -2800,7 +2800,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2810,7 +2810,7 @@ public class DBTaskService {
         // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
         __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -2823,7 +2823,7 @@ public class DBTaskService {
 
     private static class cancelTask_resultStandardScheme extends StandardScheme<cancelTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, cancelTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -2852,7 +2852,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, cancelTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -2876,7 +2876,7 @@ public class DBTaskService {
     private static class cancelTask_resultTupleScheme extends TupleScheme<cancelTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -2889,7 +2889,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, cancelTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -3124,11 +3124,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -3148,7 +3148,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -3156,7 +3156,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3164,7 +3164,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3177,7 +3177,7 @@ public class DBTaskService {
 
     private static class findTask_argsStandardScheme extends StandardScheme<findTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -3206,7 +3206,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -3230,7 +3230,7 @@ public class DBTaskService {
     private static class findTask_argsTupleScheme extends TupleScheme<findTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetName()) {
@@ -3243,7 +3243,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -3478,11 +3478,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -3502,7 +3502,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
       if (success != null) {
@@ -3513,7 +3513,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3521,7 +3521,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3534,7 +3534,7 @@ public class DBTaskService {
 
     private static class findTask_resultStandardScheme extends StandardScheme<findTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -3564,7 +3564,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -3588,7 +3588,7 @@ public class DBTaskService {
     private static class findTask_resultTupleScheme extends TupleScheme<findTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -3601,7 +3601,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, findTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -3762,11 +3762,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -3779,7 +3779,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -3787,7 +3787,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3795,7 +3795,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -3808,7 +3808,7 @@ public class DBTaskService {
 
     private static class listTask_argsStandardScheme extends StandardScheme<listTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, listTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -3829,7 +3829,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, listTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -3848,12 +3848,12 @@ public class DBTaskService {
     private static class listTask_argsTupleScheme extends TupleScheme<listTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, listTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, listTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, listTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, listTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
       }
     }
@@ -4103,11 +4103,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -4127,7 +4127,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -4135,7 +4135,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4143,7 +4143,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4156,7 +4156,7 @@ public class DBTaskService {
 
     private static class listTask_resultStandardScheme extends StandardScheme<listTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, listTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, listTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -4196,7 +4196,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, listTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, listTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -4227,7 +4227,7 @@ public class DBTaskService {
     private static class listTask_resultTupleScheme extends TupleScheme<listTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -4246,7 +4246,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, listTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -4491,11 +4491,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -4515,7 +4515,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -4523,7 +4523,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4531,7 +4531,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4544,7 +4544,7 @@ public class DBTaskService {
 
     private static class removeTask_argsStandardScheme extends StandardScheme<removeTask_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, removeTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, removeTask_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -4573,7 +4573,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, removeTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, removeTask_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -4597,7 +4597,7 @@ public class DBTaskService {
     private static class removeTask_argsTupleScheme extends TupleScheme<removeTask_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, removeTask_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, removeTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetName()) {
@@ -4610,7 +4610,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, removeTask_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, removeTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -4845,11 +4845,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -4869,7 +4869,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
       if (success != null) {
@@ -4880,7 +4880,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4888,7 +4888,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -4901,7 +4901,7 @@ public class DBTaskService {
 
     private static class removeTask_resultStandardScheme extends StandardScheme<removeTask_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, removeTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, removeTask_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -4931,7 +4931,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, removeTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, removeTask_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -4955,7 +4955,7 @@ public class DBTaskService {
     private static class removeTask_resultTupleScheme extends TupleScheme<removeTask_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, removeTask_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, removeTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -4968,7 +4968,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, removeTask_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, removeTask_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -5344,11 +5344,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -5376,7 +5376,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -5384,7 +5384,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -5394,7 +5394,7 @@ public class DBTaskService {
         // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
         __isset_bitfield = 0;
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -5407,7 +5407,7 @@ public class DBTaskService {
 
     private static class queryLog_argsStandardScheme extends StandardScheme<queryLog_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, queryLog_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, queryLog_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -5452,7 +5452,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, queryLog_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, queryLog_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -5482,7 +5482,7 @@ public class DBTaskService {
     private static class queryLog_argsTupleScheme extends TupleScheme<queryLog_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, queryLog_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, queryLog_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetName()) {
@@ -5507,7 +5507,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, queryLog_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, queryLog_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
@@ -5770,11 +5770,11 @@ public class DBTaskService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -5794,7 +5794,7 @@ public class DBTaskService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -5802,7 +5802,7 @@ public class DBTaskService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -5810,7 +5810,7 @@ public class DBTaskService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -5823,7 +5823,7 @@ public class DBTaskService {
 
     private static class queryLog_resultStandardScheme extends StandardScheme<queryLog_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, queryLog_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, queryLog_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -5863,7 +5863,7 @@ public class DBTaskService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, queryLog_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, queryLog_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -5894,7 +5894,7 @@ public class DBTaskService {
     private static class queryLog_resultTupleScheme extends TupleScheme<queryLog_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, queryLog_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, queryLog_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -5913,7 +5913,7 @@ public class DBTaskService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, queryLog_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, queryLog_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

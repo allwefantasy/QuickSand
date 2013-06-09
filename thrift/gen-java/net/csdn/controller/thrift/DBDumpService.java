@@ -34,13 +34,13 @@ public class DBDumpService {
 
   public interface Iface {
 
-    public void dump(CTask task) throws DBException, TException;
+    public void dump(CTask task) throws DBException, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.dump_call> resultHandler) throws TException;
+    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.dump_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -64,20 +64,20 @@ public class DBDumpService {
       super(iprot, oprot);
     }
 
-    public void dump(CTask task) throws DBException, TException
+    public void dump(CTask task) throws DBException, org.apache.thrift.TException
     {
       send_dump(task);
       recv_dump();
     }
 
-    public void send_dump(CTask task) throws TException
+    public void send_dump(CTask task) throws org.apache.thrift.TException
     {
       dump_args args = new dump_args();
       args.setTask(task);
       sendBase("dump", args);
     }
 
-    public void recv_dump() throws DBException, TException
+    public void recv_dump() throws DBException, org.apache.thrift.TException
     {
       dump_result result = new dump_result();
       receiveBase(result, "dump");
@@ -105,7 +105,7 @@ public class DBDumpService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler) throws TException {
+    public void dump(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       dump_call method_call = new dump_call(task, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
@@ -114,12 +114,12 @@ public class DBDumpService {
 
     public static class dump_call extends org.apache.thrift.async.TAsyncMethodCall {
       private CTask task;
-      public dump_call(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws TException {
+      public dump_call(CTask task, org.apache.thrift.async.AsyncMethodCallback<dump_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.task = task;
       }
 
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws TException {
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("dump", org.apache.thrift.protocol.TMessageType.CALL, 0));
         dump_args args = new dump_args();
         args.setTask(task);
@@ -127,8 +127,8 @@ public class DBDumpService {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws DBException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws DBException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
@@ -167,7 +167,7 @@ public class DBDumpService {
         return false;
       }
 
-      public dump_result getResult(I iface, dump_args args) throws TException {
+      public dump_result getResult(I iface, dump_args args) throws org.apache.thrift.TException {
         dump_result result = new dump_result();
         try {
           iface.dump(args.task);
@@ -403,11 +403,11 @@ public class DBDumpService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
     }
 
@@ -427,7 +427,7 @@ public class DBDumpService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
       if (task != null) {
@@ -438,7 +438,7 @@ public class DBDumpService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -446,7 +446,7 @@ public class DBDumpService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -459,7 +459,7 @@ public class DBDumpService {
 
     private static class dump_argsStandardScheme extends StandardScheme<dump_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -489,7 +489,7 @@ public class DBDumpService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -513,7 +513,7 @@ public class DBDumpService {
     private static class dump_argsTupleScheme extends TupleScheme<dump_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetTask()) {
@@ -526,7 +526,7 @@ public class DBDumpService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, dump_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -762,11 +762,11 @@ public class DBDumpService {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws TException {
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
     }
 
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
       }
 
@@ -786,7 +786,7 @@ public class DBDumpService {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       // check for sub-struct validity
     }
@@ -794,7 +794,7 @@ public class DBDumpService {
     private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -802,7 +802,7 @@ public class DBDumpService {
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (TException te) {
+      } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
       }
     }
@@ -815,7 +815,7 @@ public class DBDumpService {
 
     private static class dump_resultStandardScheme extends StandardScheme<dump_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, dump_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -845,7 +845,7 @@ public class DBDumpService {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, dump_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -869,7 +869,7 @@ public class DBDumpService {
     private static class dump_resultTupleScheme extends TupleScheme<dump_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetEx()) {
@@ -882,7 +882,7 @@ public class DBDumpService {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, dump_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {

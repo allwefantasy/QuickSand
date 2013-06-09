@@ -1,11 +1,12 @@
 package net.csdn.service.dump;
 
 import com.google.inject.Inject;
-import net.csdn.controller.thrift.DBLoadService;
 import net.csdn.common.settings.Settings;
+import net.csdn.controller.thrift.DBLoadService;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.modules.persist.mysql.MysqlClient;
+import net.csdn.modules.persist.mysql.SqlClient;
 import net.csdn.modules.thrift.ThriftClient;
 import net.sf.json.JSONArray;
 import org.apache.thrift.TException;
@@ -32,10 +33,9 @@ public class DBDumperImpl implements DBDumper {
     }
 
     @Override
-    public void dump(final DB db) {
-        MysqlClient mysqlClient = new MysqlClient(new DumpDataSourceManager(db).datasource());
-        mysqlClient.settings(this.settings);
-        mysqlClient.executeStreamingQuery(db.getSql(), new MysqlClient.SqlCallback<Object>() {
+    public void dump(final DB db) throws SQLException {
+        SqlClient sqlClient = new SqlClient(new DumpDataSourceManager(db).datasource());
+        sqlClient.executeStreamingQuery(db.getSql(), new SqlClient.SqlCallback<Object>() {
             @Override
             public Object execute(ResultSet rs) {
 
@@ -57,6 +57,7 @@ public class DBDumperImpl implements DBDumper {
                 return null;
             }
         });
+
 
     }
 
