@@ -8,7 +8,6 @@ import net.csdn.controller.thrift.CLoadService;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.document.TaskLog;
-import net.csdn.modules.persist.mysql.MysqlClient;
 import net.csdn.modules.persist.mysql.SqlClient;
 import net.csdn.modules.thrift.ThriftClient;
 import net.csdn.modules.thrift.ThriftConnectException;
@@ -51,7 +50,7 @@ public class DumpServiceImpl implements DumpService {
                     final List<Map> items = new ArrayList<Map>(task.getBatchSaveNum());
                     int count = 0;
                     while (rs.next()) {
-                        Map item = MysqlClient.rsToMap(rs, MysqlClient.getRsCloumns(rs));
+                        Map item = SqlClient.rsToMap(rs, SqlClient.getRsCloumns(rs));
                         items.add(item);
                         if (items.size() > task.getBatchSaveNum()) {
                             loadData(db.getPrefix(), items);
