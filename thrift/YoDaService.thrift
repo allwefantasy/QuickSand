@@ -30,26 +30,26 @@ struct CTaskLog{
  3: string time;
 }
 
-exception DBException
+exception CDBException
 {
     1:string msg
 }
 
-service DBDumpService{
-   void dump(1:CTask task) throws (1:DBException ex)
+service CDumpService{
+   void dump(1:CTask task) throws (1:CDBException ex)
 }
 
-service DBLoadService{
+service CLoadService{
    void load(1:string prefix,2:string objectList )
 }
 
-service DBTaskService{
-   bool createTask(1:CTask task) throws (1:DBException ex);
+service CTaskService{
+   bool createTask(1:CTask task) throws (1:CDBException ex);
    bool startTask(1:string name);
    bool cancelTask(1:string name);
    CTask findTask(1:string name);
    list<CTask> listTask();
 
-   CTask removeTask(1:string name);
+   void removeTask(1:string name);
    list<CTaskLog> queryLog(1:string name,2:i32 start,3:i32 size)
 }

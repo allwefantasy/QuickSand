@@ -5,7 +5,7 @@ import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.junit.IocTest;
 import net.csdn.modules.thrift.util.PojoCopy;
-import net.csdn.service.dump.DBDumper;
+import net.csdn.service.dump.DumpService;
 import net.csdn.service.task.TaskService;
 import net.sf.json.JSONObject;
 import org.junit.Test;
@@ -17,14 +17,14 @@ import static net.csdn.common.collections.WowCollections.map;
  * 6/3/13 WilliamZhu(allwefantasy@gmail.com)
  */
 public class DumpServiceTest extends IocTest {
-    private DBDumper crawler;
+    private DumpService crawler;
     private TaskService taskService;
     private Task task;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        crawler = service(DBDumper.class);
+        crawler = service(DumpService.class);
         taskService = service(TaskService.class);
         task = Task.create(
                 map(

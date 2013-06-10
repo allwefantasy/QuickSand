@@ -5,15 +5,16 @@ import net.csdn.common.collect.Tuple;
 import net.csdn.common.logging.CSLogger;
 import net.csdn.common.logging.Loggers;
 import net.csdn.common.settings.Settings;
+import net.csdn.controller.thrift.CDBException;
+import net.csdn.controller.thrift.CDumpService;
 import net.csdn.controller.thrift.CTask;
-import net.csdn.controller.thrift.DBDumpService;
-import net.csdn.controller.thrift.DBException;
 import net.csdn.document.DB;
 import net.csdn.document.Task;
 import net.csdn.document.TaskLog;
 import net.csdn.exception.CronParseException;
 import net.csdn.modules.threadpool.ThreadPoolService;
 import net.csdn.modules.thrift.ThriftClient;
+import net.csdn.modules.thrift.ThriftConnectException;
 import net.csdn.modules.thrift.util.PojoCopy;
 import net.csdn.util.cron.CronExpression;
 import org.apache.thrift.TException;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.csdn.common.collections.WowCollections.map;
 
@@ -38,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
     private static final Map<String, Tuple<CronExpression, Task>> triggers = new ConcurrentHashMap<String, Tuple<CronExpression, Task>>();
     private static final Map<String, CSDNFutureTask<Boolean>> scheduleThreads = new ConcurrentHashMap<String, CSDNFutureTask<Boolean>>();
 
-    private final ThriftClient<DBDumpService.Client> crawler;
+    private final ThriftClient<CDumpService.Client> crawler;
     private ThreadPoolService threadPoolService;
 
     private final static String DumpServer = "thrift.servers.dump";
@@ -47,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
     @Inject
     public TaskServiceImpl(Settings settings, ThreadPoolService threadPoolService) {
         this.settings = settings;
-        this.crawler = ThriftClient.build(DBDumpService.Client.class);
+        this.crawler = ThriftClient.build(CDumpService.Client.class);
         this.threadPoolService = threadPoolService;
         initialize();
     }
@@ -135,12 +137,18 @@ public class TaskServiceImpl implements TaskService {
 
                     CSDNFutureTask futureTask = scheduleThreads.get(task.getName());
                     if (futureTask == null) break;
-
+                    TaskLog.createLog(task, map("message", "[" + task.getName() + "] begin [" + Thread.currentThread().getName() + "] running"));
                     List<DB> dbs = task.dbs().find();
                     for (DB db : dbs) {
                         dumpData(db);
                     }
+                    TaskLog.createLog(task, map("message", "[" + task.getName() + "] finish [" + Thread.currentThread().getName() + "] running"));
                     nextValidTime = cronExpression.getNextValidTimeAfter(new Date());
+                    if (nextValidTime == null) {
+                        TaskLog.createLog(task, map("message", "[" + task.getName() + "] [" + Thread.currentThread().getName() + "] finish and been destroied"));
+                    } else {
+                        TaskLog.createLog(task, map("message", "[" + task.getName() + "] will run on [" + new DateTime(nextValidTime).toString("yyyy-MM-dd HH:mm:ss") + "]"));
+                    }
                 }
 
                 return true;
@@ -151,21 +159,36 @@ public class TaskServiceImpl implements TaskService {
 
     private void dumpData(final DB db) {
         String server = settings.getAsArray(DumpServer)[0];
-        crawler.execute(server, new ThriftClient.Callback<DBDumpService.Client>() {
-            @Override
-            public void execute(DBDumpService.Client client) {
+        int count = 0;
+        final AtomicBoolean once = new AtomicBoolean(true);
+        while (once.get() && count < 3) {
+            try {
+                crawler.execute(server, new ThriftClient.Callback<CDumpService.Client>() {
+                    @Override
+                    public void execute(CDumpService.Client client) {
+                        try {
+                            client.dump(PojoCopy.build(db.task().findOne(), CTask.class));
+                        } catch (CDBException ex) {
+                            logger.error("dump service db connect error");
+                            log(db, map("message", "cannot operate " + db.getDbHost() + " server at port " + db.getDbPort()));
+                        } catch (TException e) {
+                            logger.error("dump service error");
+                            log(db, map("message", "cannot invoke dump service"));
+                            e.printStackTrace();
+                        }
+                        once.set(false);
+                    }
+                });
+            } catch (ThriftConnectException e) {
+                count++;
                 try {
-                    client.dump(PojoCopy.build(db.task().findOne(), CTask.class));
-                } catch (DBException ex) {
-                    logger.error("dump service db connect error");
-                    log(db, map("message", "cannot operate " + db.getDbHost() + " server at port " + db.getDbPort()));
-                } catch (TException e) {
-                    logger.error("dump service error");
-                    log(db, map("message", "cannot invoke dump service"));
-                    e.printStackTrace();
+                    Thread.sleep(3000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
                 }
+                logger.error("dump service maybe down!!!!");
             }
-        });
+        }
     }
 
     private void log(DB db, Map info) {

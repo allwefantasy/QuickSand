@@ -78,3 +78,46 @@ class CTask
   ::Thrift::Struct.generate_accessors self
 end
 
+class CTaskLog
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  TASKNAME = 1
+  MESSAGE = 2
+  TIME = 3
+
+  FIELDS = {
+    TASKNAME => {:type => ::Thrift::Types::STRING, :name => 'taskName'},
+    MESSAGE => {:type => ::Thrift::Types::STRING, :name => 'message'},
+    TIME => {:type => ::Thrift::Types::STRING, :name => 'time'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
+class CDBException < ::Thrift::Exception
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  def initialize(message=nil)
+    super()
+    self.msg = message
+  end
+
+  def message; msg end
+
+  MSG = 1
+
+  FIELDS = {
+    MSG => {:type => ::Thrift::Types::STRING, :name => 'msg'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+

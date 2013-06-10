@@ -1,10 +1,12 @@
 package test.net.csdn;
 
+import junit.framework.Assert;
 import net.csdn.common.settings.Settings;
 import net.csdn.controller.thrift.CTaskLog;
-import net.csdn.controller.thrift.DBTaskService;
+import net.csdn.controller.thrift.CTaskService;
 import net.csdn.junit.IocTest;
 import net.csdn.modules.thrift.ThriftClient;
+import net.csdn.modules.thrift.ThriftConnectException;
 import net.csdn.service.task.TaskService;
 import org.apache.thrift.TException;
 import org.junit.Test;
@@ -23,7 +25,7 @@ public class TaskServiceTest extends IocTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.dbTaskServiceThriftClient = ThriftClient.build(DBTaskService.Client.class);
+        this.dbTaskServiceThriftClient = ThriftClient.build(CTaskService.Client.class);
         this.settings = service(Settings.class);
         this.taskService = service(TaskService.class);
     }
@@ -57,19 +59,21 @@ public class TaskServiceTest extends IocTest {
 
     @Test
     public void testQueryTaskLog() {
-        dbTaskServiceThriftClient.execute(settings.getAsArray("thrift.servers.task")[0], new ThriftClient.Callback<DBTaskService.Client>() {
-            @Override
-            public void execute(DBTaskService.Client client) {
-                try {
-                    List<CTaskLog> taskLogs = client.queryLog("test", 0, 15);
-                    for (CTaskLog taskLog : taskLogs) {
-                        System.out.println(taskLog.getMessage());
+        try {
+            dbTaskServiceThriftClient.execute(settings.getAsArray("thrift.servers.task")[0], new ThriftClient.Callback<CTaskService.Client>() {
+                @Override
+                public void execute(CTaskService.Client client) {
+                    try {
+                        List<CTaskLog> taskLogs = client.queryLog("test", 0, 15);
+                        Assert.assertTrue(taskLogs.size() > 0);
+                    } catch (TException e) {
+                        e.printStackTrace();
                     }
-                } catch (TException e) {
-                    e.printStackTrace();
                 }
-            }
-        });
+            });
+        } catch (ThriftConnectException e) {
+            e.printStackTrace();
+        }
 
     }
 }
